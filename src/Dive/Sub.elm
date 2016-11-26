@@ -3,6 +3,7 @@ module Dive.Sub exposing (..)
 import Window
 import AnimationFrame
 import Mouse
+import Keyboard 
 import Dive.Model exposing (..)
 import Dive.Update exposing (Msg(..))
 
@@ -12,4 +13,5 @@ subscriptions model =
     [ Window.resizes Resize
     , AnimationFrame.diffs Animate
     , Mouse.clicks (always Forth)
+    , Keyboard.presses KeyPressed
     ]

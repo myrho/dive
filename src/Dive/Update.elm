@@ -2,6 +2,7 @@ module Dive.Update exposing (..)
 
 import Time exposing (Time)
 import Window exposing (Size)
+import Keyboard exposing (KeyCode)
 import List.Extra
 import Dive.Model exposing (..)
 import Dive.Init exposing (initAnimation)
@@ -11,6 +12,7 @@ type Msg =
   | Back
   | Animate Time
   | Resize Size
+  | KeyPressed KeyCode
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -22,27 +24,17 @@ update msg model =
       , Cmd.none
       )
     Forth ->
-      case model.animation of
-        Just _ ->
-          (model, Cmd.none)
-        Nothing ->
-          ( { model
-              | animation = 
-                forthAnimation model.keys
-            }
-          , Cmd.none
-          )
+      forthMsg model
     Back ->
-      case model.animation of
-        Just _ ->
+      backMsg model
+    KeyPressed code ->
+      case code of
+        37 ->
+          backMsg model
+        39 ->
+          forthMsg model
+        _ ->
           (model, Cmd.none)
-        Nothing ->
-          ( { model
-              | animation = 
-                backAnimation model.keys
-            }
-          , Cmd.none
-          )
     Animate diff ->
       case model.animation of
         Nothing ->
@@ -70,6 +62,32 @@ update msg model =
                   }
                 , Cmd.none
                 )
+
+backMsg : Model -> (Model, Cmd Msg)
+backMsg model =
+  case model.animation of
+    Just _ ->
+      (model, Cmd.none)
+    Nothing ->
+      ( { model
+          | animation = 
+            backAnimation model.keys
+        }
+      , Cmd.none
+      )
+
+forthMsg : Model -> (Model, Cmd Msg)
+forthMsg model =
+  case model.animation of
+    Just _ ->
+      (model, Cmd.none)
+    Nothing ->
+      ( { model
+          | animation = 
+            forthAnimation model.keys
+        }
+      , Cmd.none
+      )
 
 updateKeys : Animation -> Keys -> Keys
 updateKeys animation keys =
