@@ -4,10 +4,14 @@ import Color exposing (Color)
 import Window exposing (Size)
 import Mouse exposing (Position)
 
+animationDuration =
+  1000
+
 type alias Model =
   { viewport : Size
   , world : List Object
   , keys : Keys
+  , animation : Maybe Animation
   }
 
 type Object =
@@ -36,4 +40,10 @@ type alias Keys =
 type alias Key =
   { position : Position
   , size : Size
+  }
+
+type alias Animation =
+  { passed : Float -- fraction of animation passed, 0 to 1
+  , forth : Bool -- whether presentation goes back or forth
+  , next : Key
   }

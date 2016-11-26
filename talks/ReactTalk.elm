@@ -15,4 +15,6 @@ keys =
   Keys
     []
     (Key (Position 0 0) (Size 400 300))
-    []
+    [ Key (Position 0 0) (Size 200 100)
+    , Key (Position 0 0) (Size 800 600)
+    ]

@@ -12,7 +12,7 @@ import Dive.Sub exposing (subscriptions)
 main : Program Size Model Msg
 main =
   Html.programWithFlags
-    { init = init
+    { init = \s -> (init s, Cmd.none)
     , update = update
     , view = view
     , subscriptions = subscriptions
