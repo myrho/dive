@@ -14,5 +14,5 @@ world =
 keys = 
   Keys
     []
-    (Key (Position 0 0) (Size 1254 964))
+    (Key (Position 0 0) (Size 400 300))
     []
