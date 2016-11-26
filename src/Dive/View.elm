@@ -7,6 +7,7 @@ import Text as T
 import Transform exposing (Transform)
 import Window exposing (Size)
 import Mouse exposing (Position)
+import Ease
 import Dive.Model exposing (..)
 import Dive.Update exposing (Msg(..))
 
@@ -58,28 +59,24 @@ animate passed oldkey key =
 animateSize : Float -> Size -> Size -> Size
 animateSize passed oldsize size =
   { size
-    | width = 
-      (+) oldsize.width 
-      <| round <| (*) passed <| toFloat 
-      <| size.width - oldsize.width
-    , height = 
-      (+) oldsize.height
-      <| round <| (*) passed <| toFloat 
-      <| size.height - oldsize.height
+    | width = animateInt passed oldsize.width size.width
+    , height = animateInt passed oldsize.height size.height
   }
 
 animatePosition : Float -> Position -> Position -> Position
 animatePosition passed oldposition position =
   { position
-    | x = 
-      (+) position.x
-      <| round <| (*) passed <| toFloat 
-      <| position.x - oldposition.x
-    , y = 
-      (+) position.y
-      <| round <| (*) passed <| toFloat 
-      <| position.y - oldposition.y
+    | x = animateInt passed oldposition.x position.x
+    , y = animateInt passed oldposition.y position.y
   }
+
+animateInt : Float -> Int -> Int -> Int
+animateInt passed old int =
+  (+) old
+  <| round 
+  <| (*) (Ease.inOutQuad passed)
+  <| toFloat 
+  <| int - old
 
 visibleForms : Model -> List C.Form
 visibleForms model =
