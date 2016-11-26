@@ -7,12 +7,12 @@ import Dive.Model exposing (..)
 
 world =
   [ Text 
-    <| TextObject "Hello World!" black "Helvetica" 12
+    <| TextObject "Hello World!" black "Helvetica" 12 
+    <| Position 0 0
   ]
 
 keys = 
-  Just
-  <| Keys
+  Keys
     []
-    (Key (Position 0 0) (Size 400 300))
+    (Key (Position 0 0) (Size 1254 964))
     []

@@ -6,9 +6,8 @@ import Mouse exposing (Position)
 
 type alias Model =
   { viewport : Size
-  , window : Size
   , world : List Object
-  , keys : Maybe Keys
+  , keys : Keys
   }
 
 type Object =
@@ -16,7 +15,7 @@ type Object =
     | Text TextObject
 
 type alias PolygonObject =
-  { gons : List Position
+  { gons : List (Float, Float)
   , color : Color
   }
 
@@ -25,6 +24,7 @@ type alias TextObject =
   , color : Color
   , font : String
   , size : Float
+  , position : Position
   }
 
 type alias Keys =

@@ -9,7 +9,6 @@ import ReactTalk
 init : Size -> (Model, Cmd Msg)
 init viewport = 
   ( { viewport = viewport
-    , window = viewport
     , world = ReactTalk.world
     , keys = ReactTalk.keys
     }
