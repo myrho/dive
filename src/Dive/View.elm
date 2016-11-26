@@ -90,12 +90,20 @@ object2Form : Object -> C.Form
 object2Form object =
   case object of
     Text {text, color, font, size, position} ->
-      T.fromString text
-        |> T.color color
-        |> T.typeface [font]
-        |> T.height size
-        |> C.text
-        |> C.move (position.x, position.y)
+      let
+        text_ = 
+          T.fromString text
+            |> T.color color
+            |> T.typeface [font]
+            |> T.height size
+        width =
+          text_
+            |> E.leftAligned
+            |> E.widthOf
+      in
+        text_
+          |> C.text
+          |> C.move (position.x - (toFloat width)/2, position.y)
     Polygon {gons, color} ->
       C.polygon gons
         |> C.filled color
