@@ -10,7 +10,7 @@ import Dive.Update exposing (Msg(..))
 view : Model -> Html Msg
 view model =
   E.toHtml
-  <| C.collage model.viewport.w model.viewport.h
+  <| C.collage model.viewport.width model.viewport.height
   <| forms model
 
 forms : Model -> List C.Form

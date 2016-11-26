@@ -1,6 +1,7 @@
 module App exposing (..)
 
 import Html 
+import Window exposing (Size)
 import Dive.Model exposing (..)
 import Dive.Init exposing (init)
 import Dive.View exposing (view)

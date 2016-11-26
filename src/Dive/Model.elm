@@ -1,6 +1,8 @@
 module Dive.Model exposing (..)
 
 import Color exposing (Color)
+import Window exposing (Size)
+import Mouse exposing (Position)
 
 type alias Model =
   { viewport : Size
@@ -23,16 +25,6 @@ type alias TextObject =
   , color : Color
   , font : String
   , size : Float
-  }
-
-type alias Size =
-  { w : Int
-  , h : Int
-  }
-
-type alias Position =
-  { x : Int
-  , y : Int
   }
 
 type alias Keys =

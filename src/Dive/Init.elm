@@ -1,5 +1,6 @@
 module Dive.Init exposing (..)
 
+import Window exposing (Size)
 import Dive.Model exposing (..)
 import Dive.Update exposing (Msg(..))
 
