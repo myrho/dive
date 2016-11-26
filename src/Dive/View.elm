@@ -6,8 +6,6 @@ import Collage as C
 import Element as E
 import Text as T
 import Transform exposing (Transform)
-import Window exposing (Size)
-import Mouse exposing (Position)
 import Ease
 import Dive.Model exposing (..)
 import Dive.Update exposing (Msg(..))
@@ -21,7 +19,7 @@ view model =
 view_ : Model -> Html Msg
 view_ model =
   E.toHtml
-    <| C.collage model.viewport.width model.viewport.height
+    <| C.collage (round model.viewport.width) (round model.viewport.height)
     <| forms model
 
 forms : Model -> List C.Form
@@ -44,15 +42,15 @@ windowViewportTransform model =
         Just animation ->
           animate animation.passed model.keys.current animation.next
     scale side viewport window =
-      (toFloat <| side viewport) / (toFloat <| side window)
+      (side viewport) / (side window)
     scaleX =
       scale .width model.viewport current.size
     scaleY =
       scale .height model.viewport current.size
     translateX =
-      negate <| toFloat <| current.position.x
+      negate <| current.position.x * scaleX -- current.size.width / 2
     translateY =
-      negate <| toFloat <| current.position.y
+      negate <| current.position.y * scaleY -- current.size.height / 2
   in
     Transform.matrix scaleX 0 0 scaleY translateX translateY
 
@@ -66,23 +64,21 @@ animate passed oldkey key =
 animateSize : Float -> Size -> Size -> Size
 animateSize passed oldsize size =
   { size
-    | width = animateInt passed oldsize.width size.width
-    , height = animateInt passed oldsize.height size.height
+    | width = animateX passed oldsize.width size.width
+    , height = animateX passed oldsize.height size.height
   }
 
 animatePosition : Float -> Position -> Position -> Position
 animatePosition passed oldposition position =
   { position
-    | x = animateInt passed oldposition.x position.x
-    , y = animateInt passed oldposition.y position.y
+    | x = animateX passed oldposition.x position.x
+    , y = animateX passed oldposition.y position.y
   }
 
-animateInt : Float -> Int -> Int -> Int
-animateInt passed old int =
+animateX : Float -> Float -> Float -> Float
+animateX passed old int =
   (+) old
-  <| round 
   <| (*) (Ease.inOutQuad passed)
-  <| toFloat 
   <| int - old
 
 visibleForms : Model -> List C.Form
@@ -99,7 +95,7 @@ object2Form object =
         |> T.typeface [font]
         |> T.height size
         |> C.text
-        |> C.move (toFloat position.x, toFloat position.y)
+        |> C.move (position.x, position.y)
     Polygon {gons, color} ->
       C.polygon gons
         |> C.filled color

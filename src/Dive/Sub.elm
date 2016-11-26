@@ -10,8 +10,8 @@ import Dive.Update exposing (Msg(..))
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.batch
-    [ Window.resizes Resize
-    , AnimationFrame.diffs Animate
+    [ --Window.resizes Resize
+    AnimationFrame.diffs Animate
     , Mouse.clicks (always Forth)
-    , Keyboard.presses KeyPressed
+    , Keyboard.downs KeyPressed
     ]

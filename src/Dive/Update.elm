@@ -1,7 +1,6 @@
 module Dive.Update exposing (..)
 
 import Time exposing (Time)
-import Window exposing (Size)
 import Keyboard exposing (KeyCode)
 import List.Extra
 import Dive.Model exposing (..)
@@ -16,7 +15,7 @@ type Msg =
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-  case msg of
+  case Debug.log "msg" msg of
     Resize size ->
       ( { model
           | viewport = size

@@ -1,8 +1,6 @@
 module Dive.Model exposing (..)
 
 import Color exposing (Color)
-import Window exposing (Size)
-import Mouse exposing (Position)
 
 animationDuration =
   1000
@@ -19,8 +17,8 @@ type Object =
     | Text TextObject
 
 type alias PolygonObject =
-  { gons : List (Float, Float)
-  , color : Color
+  { color : Color
+  , gons : List (Float, Float)
   }
 
 type alias TextObject = 
@@ -46,4 +44,14 @@ type alias Animation =
   { passed : Float -- fraction of animation passed, 0 to 1
   , forth : Bool -- whether presentation goes back or forth
   , next : Key
+  }
+
+type alias Size = 
+  { width : Float
+  , height : Float
+  }
+
+type alias Position =
+  { x : Float
+  , y : Float
   }
