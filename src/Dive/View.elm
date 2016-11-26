@@ -1,6 +1,7 @@
 module Dive.View exposing (..)
 
 import Html exposing (Html)
+import Html.Lazy 
 import Collage as C
 import Element as E
 import Text as T
@@ -13,9 +14,15 @@ import Dive.Update exposing (Msg(..))
 
 view : Model -> Html Msg
 view model =
+  Html.Lazy.lazy 
+  view_
+  model
+
+view_ : Model -> Html Msg
+view_ model =
   E.toHtml
-  <| C.collage model.viewport.width model.viewport.height
-  <| forms model
+    <| C.collage model.viewport.width model.viewport.height
+    <| forms model
 
 forms : Model -> List C.Form
 forms model =
