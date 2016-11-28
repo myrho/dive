@@ -22,6 +22,12 @@ world =
   , Text
     <| TextObject "  }" Color.white "Courier New" 1
     <| Position 500 246
+  , Image
+    <| ImageObject 
+        "/talks/smiley.png"
+        200
+        200
+    <| Position 300 1200
   ]
 
 keys = 
@@ -31,6 +37,8 @@ keys =
     [ Key (Position 490 250) (Size 10.2 7.6)
     , Key (Position 503 249) (Size 10.2 7.6)
     , Key (Position 503 248) (Size 10.2 7.6)
+    , Key (Position 500 500) (Size 2048 1500)
+    , Key (Position 300 1200) (Size 200 200)
     ]
 
 moveTo (cx, cy) list =

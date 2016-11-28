@@ -129,3 +129,19 @@ object2Form object =
     Polygon {gons, color} ->
       C.polygon gons
         |> C.filled color
+    Image {src, width, height, position} ->
+      E.image width height src
+        |> C.toForm
+        |> C.move (position.x, position.y)
+    FittedImage {src, width, height, position} ->
+      E.fittedImage width height src
+        |> C.toForm
+        |> C.move (position.x, position.y)
+    TiledImage {src, width, height, position} ->
+      E.tiledImage width height src
+        |> C.toForm
+        |> C.move (position.x, position.y)
+    CroppedImage {src, width, height, offsetX, offsetY, position} ->
+      E.croppedImage (offsetX,offsetY) width height src
+        |> C.toForm
+        |> C.move (position.x, position.y)

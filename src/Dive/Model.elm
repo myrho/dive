@@ -15,6 +15,10 @@ type alias Model =
 type Object =
   Polygon PolygonObject
     | Text TextObject
+    | Image ImageObject
+    | FittedImage ImageObject
+    | CroppedImage CroppedImageObject
+    | TiledImage ImageObject
 
 type alias PolygonObject =
   { color : Color
@@ -26,6 +30,22 @@ type alias TextObject =
   , color : Color
   , font : String
   , size : Float
+  , position : Position
+  }
+
+type alias ImageObject =
+  { src : String
+  , width : Int
+  , height : Int
+  , position : Position
+  }
+
+type alias CroppedImageObject =
+  { src : String
+  , width : Int
+  , height : Int
+  , offsetX : Int
+  , offsetY : Int
   , position : Position
   }
 
