@@ -2,9 +2,6 @@ module Dive.Model exposing (..)
 
 import Color exposing (Color)
 
-animationDuration =
-  1000
-
 type alias Model =
   { viewport : Size
   , world : List Object
@@ -58,6 +55,7 @@ type alias Keys =
 type alias Key =
   { position : Position
   , size : Size
+  , duration : Int
   }
 
 type alias Animation =

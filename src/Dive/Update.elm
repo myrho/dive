@@ -44,8 +44,15 @@ update msg model =
           (model, Cmd.none)
         Just animation ->
           let
+            duration =
+              toFloat 
+              <| if animation.forth
+                  then 
+                    animation.next.duration
+                  else
+                    model.keys.current.duration
             passed = 
-              animation.passed + (diff / animationDuration)
+              animation.passed + (diff / duration)
           in
             if passed < 1
               then
