@@ -40,7 +40,7 @@ windowViewportTransform model =
         Nothing ->
           model.keys.current
         Just animation ->
-          animate animation.passed model.keys.current animation.next
+          animate animation.passed model.keys.current animation.target
     currentToViewport =
       { current
         | size = adaptWindowSize model.viewport current.size

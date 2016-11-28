@@ -82,7 +82,7 @@ type alias Key =
 type alias Animation =
   { passed : Float -- fraction of animation passed, 0 to 1
   , forth : Bool -- whether presentation goes back or forth
-  , next : Key
+  , target : Key
   }
 
 type alias Size = 

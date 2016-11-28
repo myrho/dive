@@ -48,7 +48,7 @@ update msg model =
               toFloat 
               <| if animation.forth
                   then 
-                    animation.next.duration
+                    animation.target.duration
                   else
                     model.keys.current.duration
             passed = 
@@ -105,13 +105,13 @@ updateKeys animation keys =
     then
       { keys
         | previous = keys.previous ++ [ keys.current ]
-        , current = animation.next
+        , current = animation.target
         , following = List.tail keys.following |> Maybe.withDefault []
       }
     else
       { keys
         | previous = List.Extra.init keys.previous |> Maybe.withDefault []
-        , current = animation.next
+        , current = animation.target
         , following = keys.current :: keys.following
       }
 
