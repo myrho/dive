@@ -1,6 +1,7 @@
 module Dive.Model exposing (..)
 
 import Color exposing (Color)
+import Collage exposing (LineStyle)
 
 type alias Model =
   { viewport : Size
@@ -11,6 +12,7 @@ type alias Model =
 
 type Object =
   Polygon PolygonObject
+    | Rectangle RectangleObject
     | Text TextObject
     | Image ImageObject
     | FittedImage ImageObject
@@ -20,6 +22,13 @@ type Object =
 type alias PolygonObject =
   { color : Color
   , gons : List (Float, Float)
+  }
+
+type alias RectangleObject =
+  { border : LineStyle
+  , fill : Color
+  , size : Size
+  , position : Position
   }
 
 type alias TextObject = 

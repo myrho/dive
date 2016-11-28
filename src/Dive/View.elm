@@ -2,7 +2,7 @@ module Dive.View exposing (..)
 
 import Html exposing (Html)
 import Html.Lazy 
-import Collage as C
+import Collage as C 
 import Element as E
 import Text as T
 import Transform exposing (Transform)
@@ -118,6 +118,13 @@ object2Form object =
     Polygon {gons, color} ->
       C.polygon gons
         |> C.filled color
+    Rectangle {border, fill, size, position} ->
+      [ C.rect size.width size.height
+        |> C.filled fill
+      , C.rect size.width size.height
+        |> C.outlined border
+      ] |> C.group
+        |> C.move (position.x, position.y)
     Image {src, width, height, position} ->
       E.image width height src
         |> C.toForm
