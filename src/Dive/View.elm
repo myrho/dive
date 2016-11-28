@@ -111,32 +111,10 @@ visibleForms model =
 object2Form : Object -> C.Form
 object2Form object =
   case object of
-    Text {text, color, font, size, align, position} ->
-      let
-        text_ = 
-          T.fromString text
-            |> T.color color
-            |> T.typeface [font]
-            |> T.height 1
-        shift =
-          case align of
-            Center ->
-              0
-            Left ->
-              negate <| width/2
-            Right ->
-              width/2
-        width =
-          text_
-            |> E.leftAligned -- just for transforming Text to Element
-            |> E.widthOf
-            |> toFloat
-            |> (*) size
-      in
-        text_
-          |> C.text
-          |> C.scale size
-          |> C.move (position.x + shift, position.y)
+    Text object ->
+      C.group
+      <| List.indexedMap (line object)
+      <| String.split "\n" object.text
     Polygon {gons, color} ->
       C.polygon gons
         |> C.filled color
@@ -156,3 +134,31 @@ object2Form object =
       E.croppedImage (offsetX,offsetY) width height src
         |> C.toForm
         |> C.move (position.x, position.y)
+
+line : TextObject -> Int -> String -> C.Form
+line {text, color, font, size, align, position} i line =
+  let
+    text_ = 
+      T.fromString line
+        |> T.color color
+        |> T.typeface [font]
+        |> T.height 1
+    shift =
+      case align of
+        Center ->
+          0
+        Left ->
+          negate <| width/2
+        Right ->
+          width/2
+    width =
+      text_
+        |> E.leftAligned -- just for transforming Text to Element
+        |> E.widthOf
+        |> toFloat
+        |> (*) size
+  in
+    text_
+      |> C.text
+      |> C.scale size
+      |> C.move (position.x + shift, position.y - (toFloat i * size))
