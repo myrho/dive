@@ -1,5 +1,3 @@
-module App exposing (..)
-
 import Html 
 import Dive.Model exposing (..)
 import Dive.View exposing (view)
