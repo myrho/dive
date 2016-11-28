@@ -161,14 +161,18 @@ line {text, color, font, size, align, position} i line =
           negate <| width/2
         Left ->
           width/2
-    width =
+    element =
       text_
         |> E.leftAligned -- just for transforming Text to Element
+    width =
+      element
         |> E.widthOf
         |> toFloat
         |> (*) size
+    height =
+      size/2 -- for some odd reason height is half the size
   in
     text_
       |> C.text
       |> C.scale size
-      |> C.move (position.x + shift, position.y - (toFloat i * size))
+      |> C.move (position.x + shift, position.y + height/2 - (toFloat i * size))
