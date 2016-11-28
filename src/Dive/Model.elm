@@ -13,6 +13,7 @@ type alias Model =
 type Object =
   Polygon PolygonObject
     | Rectangle RectangleObject
+    | Path PathObject
     | Text TextObject
     | Image ImageObject
     | FittedImage ImageObject
@@ -29,6 +30,11 @@ type alias RectangleObject =
   , fill : Color
   , size : Size
   , position : Position
+  }
+
+type alias PathObject =
+  { lineStyle : LineStyle
+  , path : List (Float, Float)
   }
 
 type alias TextObject = 

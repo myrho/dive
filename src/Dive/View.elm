@@ -125,6 +125,9 @@ object2Form object =
         |> C.outlined border
       ] |> C.group
         |> C.move (position.x, position.y)
+    Path {lineStyle, path} ->
+      C.path path
+        |> C.traced lineStyle
     Image {src, width, height, position} ->
       E.image width height src
         |> C.toForm

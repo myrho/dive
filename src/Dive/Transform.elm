@@ -15,6 +15,8 @@ transformObject position size object =
       Polygon <| transformPolygon position size object
     Rectangle object ->
       Rectangle <| transformRectangle position size object
+    Path object ->
+      Path <| transformPath position size object
     Image object ->
       Image <| transformImage position size object
     FittedImage object ->
@@ -60,6 +62,12 @@ transformRectangle position size object =
   { object
     | size = transformSize object.size size
     , position = transformPosition object.position position size
+  }
+
+transformPath : Position -> Size -> PathObject -> PathObject
+transformPath position size object =
+  { object
+    | path = List.map (transformTuple position size) object.path
   }
 
 transformImage : Position -> Size -> ImageObject -> ImageObject
