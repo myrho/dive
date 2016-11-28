@@ -6,7 +6,7 @@ init : Size -> Model
 init viewport = 
   { viewport = viewport
   , world = []
-  , keys = Keys [] (Key (Position 0 0) viewport 0) []
+  , keys = Keys [] [] <| Key (Position 0 0) viewport 0 
   , animation = Nothing
   }
 

@@ -54,8 +54,8 @@ type alias CroppedImageObject =
 
 type alias Keys =
   { previous : List Key
-  , current : Key
   , following : List Key
+  , current : Key
   }
 
 type alias Key =
