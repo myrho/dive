@@ -27,8 +27,14 @@ type alias TextObject =
   , color : Color
   , font : String
   , size : Float
+  , align : Align
   , position : Position
   }
+
+type Align = 
+  Center 
+  | Left 
+  | Right
 
 type alias ImageObject =
   { src : String

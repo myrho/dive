@@ -111,16 +111,24 @@ visibleForms model =
 object2Form : Object -> C.Form
 object2Form object =
   case object of
-    Text {text, color, font, size, position} ->
+    Text {text, color, font, size, align, position} ->
       let
         text_ = 
           T.fromString text
             |> T.color color
             |> T.typeface [font]
             |> T.height 1
+        shift =
+          case align of
+            Center ->
+              0
+            Left ->
+              negate <| width/2
+            Right ->
+              width/2
         width =
           text_
-            |> E.leftAligned
+            |> E.leftAligned -- just for transforming Text to Element
             |> E.widthOf
             |> toFloat
             |> (*) size
@@ -128,7 +136,7 @@ object2Form object =
         text_
           |> C.text
           |> C.scale size
-          |> C.move (position.x - width/2, position.y)
+          |> C.move (position.x + shift, position.y)
     Polygon {gons, color} ->
       C.polygon gons
         |> C.filled color
