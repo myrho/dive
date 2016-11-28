@@ -2,6 +2,7 @@ module Dive.Update exposing (..)
 
 import Time exposing (Time)
 import Keyboard exposing (KeyCode)
+import Window 
 import List.Extra
 import Dive.Model exposing (..)
 import Dive.Init exposing (initAnimation)
@@ -10,7 +11,7 @@ type Msg =
   Forth
   | Back
   | Animate Time
-  | Resize Size
+  | Resize Window.Size
   | KeyPressed KeyCode
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -18,7 +19,10 @@ update msg model =
   case Debug.log "msg" msg of
     Resize size ->
       ( { model
-          | viewport = size
+          | viewport = 
+            { width = toFloat size.width
+            , height = toFloat size.height
+            }
         }
       , Cmd.none
       )

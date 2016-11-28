@@ -41,18 +41,40 @@ windowViewportTransform model =
           model.keys.current
         Just animation ->
           animate animation.passed model.keys.current animation.next
+    currentToViewport =
+      { current
+        | size = adaptWindowSize model.viewport current.size
+      }
     scale side viewport window =
       (side viewport) / (side window)
     scaleX =
-      scale .width model.viewport current.size
+      scale .width model.viewport currentToViewport.size
     scaleY =
-      scale .height model.viewport current.size
+      scale .height model.viewport currentToViewport.size
     translateX =
-      negate <| current.position.x * scaleX -- current.size.width / 2
+      negate <| currentToViewport.position.x * scaleX -- current.size.width / 2
     translateY =
-      negate <| current.position.y * scaleY -- current.size.height / 2
+      negate <| currentToViewport.position.y * scaleY -- current.size.height / 2
   in
     Transform.matrix scaleX 0 0 scaleY translateX translateY
+
+adaptWindowSize : Size -> Size -> Size
+adaptWindowSize viewportSize windowSize =
+  let
+    viewportRatio = 
+      viewportSize.width / viewportSize.height
+    windowRatio =
+      windowSize.width / windowSize.height
+  in
+    if windowRatio < viewportRatio
+      then
+        { windowSize
+          | width = windowSize.height * viewportRatio
+        }
+      else
+        { windowSize
+          | height = windowSize.width / viewportRatio
+        }
 
 animate : Float -> Key -> Key -> Key
 animate passed oldkey key =
