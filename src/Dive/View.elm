@@ -157,9 +157,9 @@ line {text, color, font, size, align, position} i line =
       case align of
         Center ->
           0
-        Left ->
-          negate <| width/2
         Right ->
+          negate <| width/2
+        Left ->
           width/2
     width =
       text_
