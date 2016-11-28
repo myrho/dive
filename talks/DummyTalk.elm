@@ -2,10 +2,11 @@ module DummyTalk exposing (..)
 
 import Color exposing (Color, black)
 import Dive.Model exposing (..)
+import Dive.Transform as Transform
 import ElmLogo
 
 world =
-  ElmLogo.logo (Position 0 0) (Size 1000 1000)
+  (Transform.transformWorld (Position -500 -500) (Size 1000 1000) ElmLogo.logo)
   ++
   [ Text
     <| TextObject "How to build this presentation in Elm" Color.white "Helvetica" 0.1
