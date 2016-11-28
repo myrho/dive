@@ -5,7 +5,7 @@ import Dive.Model exposing (..)
 import ElmLogo
 
 world =
-  ElmLogo.logo
+  ElmLogo.logo (Position 0 0) (Size 1000 1000)
   ++
   [ Text
     <| TextObject "How to build this presentation in Elm" Color.white "Helvetica" 0.1

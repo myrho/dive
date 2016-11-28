@@ -3,49 +3,59 @@ module ElmLogo exposing (..)
 import Dive.Model exposing (..)
 import Color exposing (Color, black)
 
-logo =
+transformTuple {x,y} {width, height} (xt, yt) =
+  (xt*width + x, yt*height + y)
+
+logo pos size =
   [ Polygon
     <| PolygonObject Color.lightBlue
-    <|[ (10, 0)
-      , (990, 0)
-      , (500, 490)
+    <| List.map (transformTuple pos size)
+    <|[ (0.01, 0.00)
+      , (0.99, 0.00)
+      , (0.50, 0.49)
       ]
   , Polygon
     <| PolygonObject Color.darkBlue
-    <|[ (0, 10)
-      , (0, 990)
-      , (490, 500)
+    <| List.map (transformTuple pos size)
+    <|[ (0.00, 0.01)
+      , (0.00, 0.99)
+      , (0.49, 0.50)
       ]
   , Polygon
     <| PolygonObject Color.orange
-    <|[ (1000, 10)
-      , (1000, 490)
-      , (760, 250)
+    <| List.map (transformTuple pos size)
+    <|[ (1.00, 0.01)
+      , (1.00, 0.49)
+      , (0.76, 0.25)
       ]
   , Polygon
     <| PolygonObject Color.green
-    <|[ (510, 500)
-      , (750, 740)
-      , (990, 500)
-      , (750, 260)
+    <| List.map (transformTuple pos size)
+    <|[ (0.51, 0.50)
+      , (0.75, 0.74)
+      , (0.99, 0.50)
+      , (0.75, 0.26)
       ]
   , Polygon
     <| PolygonObject Color.orange
-    <|[ (500, 510)
-      , (740, 750)
-      , (260, 750)
+    <| List.map (transformTuple pos size)
+    <|[ (0.50, 0.51)
+      , (0.74, 0.75)
+      , (0.26, 0.75)
       ]
   , Polygon
     <| PolygonObject Color.green
-    <|[ (10, 1000)
-      , (490, 1000)
-      , (730, 760)
-      , (250, 760)
+    <| List.map (transformTuple pos size)
+    <|[ (0.01, 1.00)
+      , (0.49, 1.00)
+      , (0.73, 0.76)
+      , (0.25, 0.76)
       ]
   , Polygon
     <| PolygonObject Color.lightBlue
-    <|[ (510, 1000)
-      , (1000, 1000)
-      , (1000, 510)
+    <| List.map (transformTuple pos size)
+    <|[ (0.51, 1.00)
+      , (1.00, 1.00)
+      , (1.00, 0.51)
       ]
   ]
