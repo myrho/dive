@@ -1,6 +1,7 @@
 module ElmLogo exposing (..)
 
 import Dive.Model exposing (..)
+import Dive.Transform as Transform
 import Color exposing (Color, black)
 
 logo =
@@ -48,4 +49,4 @@ logo =
       , (1.00, 1.00)
       , (1.00, 0.51)
       ]
-  ]
+  ] |> Transform.transformWorld (Position -0.5 -0.5) (Size 1 1) 
