@@ -8,7 +8,7 @@ world =
   ElmLogo.logo
   ++
   [ Text
-    <| TextObject "How to build this presentation in Elm" Color.white "Helvetica" 1
+    <| TextObject "How to build this presentation in Elm" Color.white "Helvetica" 0.1
     <| Position 500 250
   , Text
     <| TextObject "type alias Model =" Color.white "Courier New" 1
@@ -35,7 +35,7 @@ keys =
     []
     (Key (Position 500 500) (Size 4196 3072))
     [ Key (Position 490 250) (Size 10.2 7.6)
-    , Key (Position 503 249) (Size 10.2 7.6)
+    , Key (Position 499 250) (Size 1.02 0.76)
     , Key (Position 503 248) (Size 10.2 7.6)
     , Key (Position 500 500) (Size 2048 1500)
     , Key (Position 300 1200) (Size 200 200)

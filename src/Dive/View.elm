@@ -117,15 +117,18 @@ object2Form object =
           T.fromString text
             |> T.color color
             |> T.typeface [font]
-            |> T.height size
+            |> T.height 1
         width =
           text_
             |> E.leftAligned
             |> E.widthOf
+            |> toFloat
+            |> (*) size
       in
         text_
           |> C.text
-          |> C.move (position.x - (toFloat width)/2, position.y)
+          |> C.scale size
+          |> C.move (position.x - width/2, position.y)
     Polygon {gons, color} ->
       C.polygon gons
         |> C.filled color
