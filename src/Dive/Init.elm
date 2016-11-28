@@ -2,13 +2,11 @@ module Dive.Init exposing (..)
 
 import Dive.Model exposing (..)
 
-import ReactTalk
-
 init : Size -> Model
 init viewport = 
   { viewport = viewport
-  , world = ReactTalk.world
-  , keys = ReactTalk.keys
+  , world = []
+  , keys = Keys [] (Key (Position 0 0) viewport) []
   , animation = Nothing
   }
 
