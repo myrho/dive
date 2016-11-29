@@ -148,11 +148,13 @@ object2Form object =
 line : TextObject -> Int -> String -> C.Form
 line {text, color, font, size, align, position} i line =
   let
+    textFactor =
+      100 
     text_ = 
       T.fromString line
         |> T.color color
         |> T.typeface [font]
-        |> T.height 1
+        |> T.height textFactor
     shift =
       case align of
         Center ->
@@ -168,11 +170,11 @@ line {text, color, font, size, align, position} i line =
       element
         |> E.widthOf
         |> toFloat
-        |> (*) size
+        |> (*) (size/textFactor)
     height =
       size/2 -- for some odd reason height is half the size
   in
     text_
       |> C.text
-      |> C.scale size
+      |> C.scale (size/textFactor)
       |> C.move (position.x + shift, position.y + height/2 - (toFloat i * size))
