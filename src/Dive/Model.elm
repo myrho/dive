@@ -54,17 +54,17 @@ type Align =
 
 type alias ImageObject =
   { src : String
-  , width : Int
-  , height : Int
+  , width : Float
+  , height : Float
   , position : Position
   }
 
 type alias CroppedImageObject =
   { src : String
-  , width : Int
-  , height : Int
-  , offsetX : Int
-  , offsetY : Int
+  , width : Float
+  , height : Float
+  , offsetX : Float
+  , offsetY : Float
   , position : Position
   }
 

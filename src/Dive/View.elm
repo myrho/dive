@@ -129,21 +129,54 @@ object2Form object =
       C.path path
         |> C.traced lineStyle
     Image {src, width, height, position} ->
-      E.image width height src
-        |> C.toForm
+      scalableImage E.image width height src
         |> C.move (position.x, position.y)
     FittedImage {src, width, height, position} ->
-      E.fittedImage width height src
-        |> C.toForm
+      scalableImage E.fittedImage width height src
         |> C.move (position.x, position.y)
     TiledImage {src, width, height, position} ->
-      E.tiledImage width height src
-        |> C.toForm
+      scalableImage E.tiledImage width height src
         |> C.move (position.x, position.y)
     CroppedImage {src, width, height, offsetX, offsetY, position} ->
-      E.croppedImage (offsetX,offsetY) width height src
-        |> C.toForm
+      scalableCroppedImage offsetX offsetY width height src
         |> C.move (position.x, position.y)
+
+rescaleImage : Float -> Float -> (Int, Int, Float)
+rescaleImage width height =
+  let
+    r = 
+      width / height
+    w = 
+      1000
+    h =
+      r * w
+      |> round
+    scale =
+      width / (toFloat w)
+  in
+    (w, h, scale)
+
+scalableImage : (Int -> Int -> String -> E.Element) -> Float -> Float -> String -> C.Form
+scalableImage image width height src =
+  let
+    (w, h, scale) =
+      rescaleImage width height
+  in
+    image w h src
+      |> C.toForm
+      |> C.scale scale
+
+scalableCroppedImage : Float -> Float -> Float -> Float -> String -> C.Form
+scalableCroppedImage offsetX offsetY width height src =
+  let
+    (w, h, scale) =
+      rescaleImage width height
+    (oX, oY, _) =
+      rescaleImage offsetX offsetY
+  in
+    E.croppedImage (oX,oY) w h src
+      |> C.toForm
+      |> C.scale scale
 
 line : TextObject -> Int -> String -> C.Form
 line {text, color, font, size, align, lineHeight, position} i line =

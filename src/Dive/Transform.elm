@@ -73,24 +73,22 @@ transformPath position size object =
 transformImage : Position -> Size -> ImageObject -> ImageObject
 transformImage position size object =
   { object
-    | width = transformInt object.width size.width
-    , height = transformInt object.height size.height
+    | width = transformX object.width size.width
+    , height = transformX object.height size.height
     , position = transformPosition object.position position size
   }
 
-transformInt : Int -> Float -> Int
-transformInt int scale =
-  toFloat int 
-    |> (*) scale
-    |> round
+transformX : Float -> Float -> Float
+transformX x scale =
+  x * scale
 
 transformCroppedImage : Position -> Size -> CroppedImageObject -> CroppedImageObject
 transformCroppedImage position size object =
   { object
-    | offsetX = transformInt object.offsetX size.width
-    , offsetY = transformInt object.offsetY size.height
-    , width = transformInt object.width size.width
-    , height = transformInt object.height size.height
+    | offsetX = transformX object.offsetX size.width
+    , offsetY = transformX object.offsetY size.height
+    , width = transformX object.width size.width
+    , height = transformX object.height size.height
     , position = transformPosition object.position position size
   } 
 
