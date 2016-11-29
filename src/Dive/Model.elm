@@ -43,6 +43,7 @@ type alias TextObject =
   , font : String
   , size : Float
   , align : Align
+  , lineHeight : Float
   , position : Position
   }
 

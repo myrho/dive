@@ -146,7 +146,7 @@ object2Form object =
         |> C.move (position.x, position.y)
 
 line : TextObject -> Int -> String -> C.Form
-line {text, color, font, size, align, position} i line =
+line {text, color, font, size, align, lineHeight, position} i line =
   let
     textFactor =
       100 
@@ -177,4 +177,7 @@ line {text, color, font, size, align, position} i line =
     text_
       |> C.text
       |> C.scale (size/textFactor)
-      |> C.move (position.x + shift, position.y + height/2 - (toFloat i * size))
+      |> C.move 
+        ( position.x + shift
+        , position.y + height/2 - (toFloat i * (size*lineHeight)) 
+        )
