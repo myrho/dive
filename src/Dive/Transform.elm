@@ -93,3 +93,10 @@ transformCroppedImage position size object =
     , height = transformInt object.height size.height
     , position = transformPosition object.position position size
   } 
+
+transformKey : Position -> Size -> Key -> Key 
+transformKey position size key =
+  { key 
+    | position = transformPosition key.position position size
+    , size = transformSize key.size size
+  }
