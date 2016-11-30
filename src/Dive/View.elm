@@ -18,22 +18,16 @@ view model =
 
 view_ : Model -> Html Msg
 view_ model =
-  E.toHtml
-    <| C.collage (round model.viewport.width) (round model.viewport.height)
-    <| forms model
+  model.world 
+  |> List.map object2Form
+  |> C.groupTransform 
+      (transform model)
+  |> \x -> [x]
+  |> C.collage (round model.viewport.width) (round model.viewport.height)
+  |> E.toHtml
 
-forms : Model -> List C.Form
-forms model =
-  let
-    transform =
-      windowViewportTransform model
-  in
-    visibleForms model
-    |> C.groupTransform transform
-    |> (\x -> [x])
-
-windowViewportTransform : Model -> Transform
-windowViewportTransform model =
+transform : Model -> Transform
+transform model =
   let
     current =
       case model.animation of
@@ -45,16 +39,23 @@ windowViewportTransform model =
       { current
         | size = adaptWindowSize model.viewport current.size
       }
+  in
+    matrix model.viewport currentToViewport
+
+
+matrix : Size -> Frame -> Transform 
+matrix viewport frame =
+  let
     scale side viewport window =
       (side viewport) / (side window)
     scaleX =
-      scale .width model.viewport currentToViewport.size
+      scale .width viewport frame.size
     scaleY =
-      scale .height model.viewport currentToViewport.size
+      scale .height viewport frame.size
     translateX =
-      negate <| currentToViewport.position.x * scaleX -- current.size.width / 2
+      negate <| frame.position.x * scaleX -- current.size.width / 2
     translateY =
-      negate <| currentToViewport.position.y * scaleY -- current.size.height / 2
+      negate <| frame.position.y * scaleY -- current.size.height / 2
   in
     Transform.matrix scaleX 0 0 scaleY translateX translateY
 
@@ -102,11 +103,6 @@ animateX passed old int =
   (+) old
   <| (*) (Ease.inOutQuad passed)
   <| int - old
-
-visibleForms : Model -> List C.Form
-visibleForms model =
-  List.map object2Form
-  <| model.world 
 
 object2Form : Object -> C.Form
 object2Form object =
