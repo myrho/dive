@@ -149,7 +149,7 @@ rescaleImage width height =
     w = 
       1000
     h =
-      r * w
+      w / r
       |> round
     scale =
       width / (toFloat w)
