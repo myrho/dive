@@ -76,8 +76,17 @@ update msg model =
 backMsg : Model -> (Model, Cmd Msg)
 backMsg model =
   case model.animation of
-    Just _ ->
-      (model, Cmd.none)
+    Just animation ->
+      let
+        updatedFrames =
+          updateFrames animation model.frames
+      in
+        ( { model
+            | animation = backAnimation updatedFrames
+            , frames = updatedFrames
+          }
+        , Cmd.none
+        )
     Nothing ->
       ( { model
           | animation = 
@@ -89,8 +98,17 @@ backMsg model =
 forthMsg : Model -> (Model, Cmd Msg)
 forthMsg model =
   case model.animation of
-    Just _ ->
-      (model, Cmd.none)
+    Just animation ->
+      let
+        updatedFrames =
+          updateFrames animation model.frames
+      in
+        ( { model
+            | animation = forthAnimation updatedFrames
+            , frames = updatedFrames
+          }
+        , Cmd.none
+        )
     Nothing ->
       ( { model
           | animation = 
