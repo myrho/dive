@@ -38,9 +38,9 @@ windowViewportTransform model =
     current =
       case model.animation of
         Nothing ->
-          model.keys.current
+          model.frames.current
         Just animation ->
-          animate animation.passed model.keys.current animation.target
+          animate animation.passed model.frames.current animation.target
     currentToViewport =
       { current
         | size = adaptWindowSize model.viewport current.size
@@ -76,11 +76,11 @@ adaptWindowSize viewportSize windowSize =
           | height = windowSize.width / viewportRatio
         }
 
-animate : Float -> Key -> Key -> Key
-animate passed oldkey key =
-  { key
-    | size = animateSize passed oldkey.size key.size
-    , position = animatePosition passed oldkey.position key.position
+animate : Float -> Frame -> Frame -> Frame
+animate passed oldframe frame =
+  { frame
+    | size = animateSize passed oldframe.size frame.size
+    , position = animatePosition passed oldframe.position frame.position
   }
 
 animateSize : Float -> Size -> Size -> Size

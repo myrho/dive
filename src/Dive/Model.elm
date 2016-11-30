@@ -6,7 +6,7 @@ import Collage exposing (LineStyle)
 type alias Model =
   { viewport : Size
   , world : List Object
-  , keys : Keys
+  , frames : Frames
   , animation : Maybe Animation
   }
 
@@ -68,13 +68,13 @@ type alias CroppedImageObject =
   , position : Position
   }
 
-type alias Keys =
-  { previous : List Key
-  , following : List Key
-  , current : Key
+type alias Frames =
+  { previous : List Frame
+  , following : List Frame
+  , current : Frame
   }
 
-type alias Key =
+type alias Frame =
   { position : Position
   , size : Size
   , duration : Int
@@ -83,7 +83,7 @@ type alias Key =
 type alias Animation =
   { passed : Float -- fraction of animation passed, 0 to 1
   , forth : Bool -- whether presentation goes back or forth
-  , target : Key
+  , target : Frame
   }
 
 type alias Size = 

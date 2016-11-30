@@ -92,9 +92,9 @@ transformCroppedImage position size object =
     , position = transformPosition object.position position size
   } 
 
-transformKey : Position -> Size -> Key -> Key 
-transformKey position size key =
-  { key 
-    | position = transformPosition key.position position size
-    , size = transformSize key.size size
+transformFrame : Position -> Size -> Frame -> Frame 
+transformFrame position size frame =
+  { frame 
+    | position = transformPosition frame.position position size
+    , size = transformSize frame.size size
   }

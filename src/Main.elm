@@ -9,7 +9,7 @@ import DummyTalk
 init =
   ( { viewport = Size 1024 768
     , world = DummyTalk.world
-    , keys = DummyTalk.keys
+    , frames = DummyTalk.frames
     , animation = Nothing
     }
   , Cmd.none

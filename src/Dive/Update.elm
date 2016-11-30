@@ -50,7 +50,7 @@ update msg model =
                   then 
                     animation.target.duration
                   else
-                    model.keys.current.duration
+                    model.frames.current.duration
             passed = 
               animation.passed + (diff / duration)
           in
@@ -68,7 +68,7 @@ update msg model =
               else
                 ( { model
                     | animation = Nothing
-                    , keys = updateKeys animation model.keys 
+                    , frames = updateFrames animation model.frames 
                   }
                 , Cmd.none
                 )
@@ -81,7 +81,7 @@ backMsg model =
     Nothing ->
       ( { model
           | animation = 
-            backAnimation model.keys
+            backAnimation model.frames
         }
       , Cmd.none
       )
@@ -94,33 +94,33 @@ forthMsg model =
     Nothing ->
       ( { model
           | animation = 
-            forthAnimation model.keys
+            forthAnimation model.frames
         }
       , Cmd.none
       )
 
-updateKeys : Animation -> Keys -> Keys
-updateKeys animation keys =
+updateFrames : Animation -> Frames -> Frames
+updateFrames animation frames =
   if animation.forth 
     then
-      { keys
-        | previous = keys.previous ++ [ keys.current ]
+      { frames
+        | previous = frames.previous ++ [ frames.current ]
         , current = animation.target
-        , following = List.tail keys.following |> Maybe.withDefault []
+        , following = List.tail frames.following |> Maybe.withDefault []
       }
     else
-      { keys
-        | previous = List.Extra.init keys.previous |> Maybe.withDefault []
+      { frames
+        | previous = List.Extra.init frames.previous |> Maybe.withDefault []
         , current = animation.target
-        , following = keys.current :: keys.following
+        , following = frames.current :: frames.following
       }
 
-forthAnimation : Keys -> Maybe Animation
-forthAnimation keys =
-  List.head keys.following
+forthAnimation : Frames -> Maybe Animation
+forthAnimation frames =
+  List.head frames.following
     |> Maybe.map (initAnimation True)
 
-backAnimation : Keys -> Maybe Animation
-backAnimation keys =
-  List.Extra.last keys.previous
+backAnimation : Frames -> Maybe Animation
+backAnimation frames =
+  List.Extra.last frames.previous
     |> Maybe.map (initAnimation False)
