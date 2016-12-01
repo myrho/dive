@@ -2,6 +2,10 @@
 
 Dive is a framework written in [Elm](elmlang.org) for programming visual presentations like [Prezi](prezi.com). 
 
+## Example
+
+This [presentation](https://myrho.github.io/dive/) dives you through the fundamentals of Dive written with Dive itself!
+
 ## Installation
 
 You need to [install Elm](https://guide.elm-lang.org/install.html) before.
