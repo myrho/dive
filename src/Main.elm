@@ -1,13 +1,13 @@
 import Html 
 import Dive.Model exposing (..)
 import Dive.View exposing (view)
-import Dive.Update exposing (Msg, update)
+import Dive.Update exposing (Msg)
 import Dive.Sub exposing (subscriptions)
 
 import DummyTalk
 
-init =
-  ( { viewport = Size 1024 768
+init size =
+  ( { viewport = size
     , world = DummyTalk.world
     , frames = DummyTalk.frames
     , animation = Nothing
@@ -15,9 +15,14 @@ init =
   , Cmd.none
   )
 
-main : Program Never Model Msg
+update msg model =
+  ( Dive.Update.update msg model
+  , Cmd.none
+  )
+
+main : Program Size Model Msg
 main =
-  Html.program
+  Html.programWithFlags
     { init = init
     , update = update
     , view = view

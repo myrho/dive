@@ -14,18 +14,16 @@ type Msg =
   | Resize Window.Size
   | KeyPressed KeyCode
 
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Model -> Model
 update msg model =
   case Debug.log "msg" msg of
     Resize size ->
-      ( { model
-          | viewport = 
-            { width = toFloat size.width
-            , height = toFloat size.height
-            }
-        }
-      , Cmd.none
-      )
+      { model
+        | viewport = 
+          { width = toFloat size.width
+          , height = toFloat size.height
+          }
+      }
     Forth ->
       forthMsg model
     Back ->
@@ -37,11 +35,11 @@ update msg model =
         39 ->
           forthMsg model
         _ ->
-          (model, Cmd.none)
+          model
     Animate diff ->
       case model.animation of
         Nothing ->
-          (model, Cmd.none)
+          model
         Just animation ->
           let
             duration =
@@ -56,24 +54,20 @@ update msg model =
           in
             if passed < 1
               then
-                ( { model
-                    | animation =
-                      Just 
-                      <|{ animation 
-                          | passed = passed
-                        }
-                  }
-                , Cmd.none
-                )
+                { model
+                  | animation =
+                    Just 
+                    <|{ animation 
+                        | passed = passed
+                      }
+                }
               else
-                ( { model
-                    | animation = Nothing
-                    , frames = updateFrames animation model.frames 
-                  }
-                , Cmd.none
-                )
+                { model
+                  | animation = Nothing
+                  , frames = updateFrames animation model.frames 
+                }
 
-backMsg : Model -> (Model, Cmd Msg)
+backMsg : Model -> Model
 backMsg model =
   case model.animation of
     Just animation ->
@@ -81,21 +75,17 @@ backMsg model =
         updatedFrames =
           updateFrames animation model.frames
       in
-        ( { model
-            | animation = backAnimation updatedFrames
-            , frames = updatedFrames
-          }
-        , Cmd.none
-        )
-    Nothing ->
-      ( { model
-          | animation = 
-            backAnimation model.frames
+        { model
+          | animation = backAnimation updatedFrames
+          , frames = updatedFrames
         }
-      , Cmd.none
-      )
+    Nothing ->
+      { model
+        | animation = 
+          backAnimation model.frames
+      }
 
-forthMsg : Model -> (Model, Cmd Msg)
+forthMsg : Model -> Model
 forthMsg model =
   case model.animation of
     Just animation ->
@@ -103,19 +93,15 @@ forthMsg model =
         updatedFrames =
           updateFrames animation model.frames
       in
-        ( { model
-            | animation = forthAnimation updatedFrames
-            , frames = updatedFrames
-          }
-        , Cmd.none
-        )
-    Nothing ->
-      ( { model
-          | animation = 
-            forthAnimation model.frames
+        { model
+          | animation = forthAnimation updatedFrames
+          , frames = updatedFrames
         }
-      , Cmd.none
-      )
+    Nothing ->
+      { model
+        | animation = 
+          forthAnimation model.frames
+      }
 
 updateFrames : Animation -> Frames -> Frames
 updateFrames animation frames =
