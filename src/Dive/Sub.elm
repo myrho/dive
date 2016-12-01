@@ -11,7 +11,11 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.batch
     [ Window.resizes Resize
-    , AnimationFrame.diffs Animate
+    , case model.animation of
+        Nothing ->
+          Sub.none
+        Just animation -> 
+          AnimationFrame.diffs Animate
     , Mouse.clicks (always Forth)
     , Keyboard.downs KeyPressed
     ]

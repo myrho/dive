@@ -1,7 +1,6 @@
 module Dive.View exposing (..)
 
 import Html exposing (Html)
-import Html.Lazy 
 import Collage as C 
 import Element as E
 import Text as T
@@ -12,12 +11,6 @@ import Dive.Update exposing (Msg(..))
 
 view : Model -> Html Msg
 view model =
-  Html.Lazy.lazy 
-  view_
-  model
-
-view_ : Model -> Html Msg
-view_ model =
   model.world 
   |> List.map object2Form
   |> C.groupTransform 
