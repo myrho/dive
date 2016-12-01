@@ -4,21 +4,21 @@ Dive is a framework written in [Elm](elmlang.org) for programming visual present
 
 ## Installation
 
-You need to install Elm before.
+You need to [install Elm](https://guide.elm-lang.org/install.html) before.
 
-    npm install -g elm
-
-Then clone this repo, build the package and run the built in dummy presentation:
+Then clone this repo into a directory served by a local webserver and build the package: 
 
     git clone https://github.com/myrho/dive
     cd dive
     elm package install
-    elm reactor
+    elm make src/Main.elm --output elm.js
 
-Browse to `localhost:8000`, browse to `Main.elm` and have fun with it!
-
-Alternatively you can use `index.html`. For this the repo needs to be cloned into a directory of a local webserver. Then browse to:
+Browse to 
 
     localhost/dive/index.html
 
 `index.html` contains a piece of JavaScript that reads out current window size and passes it to the Elm App on startup.
+
+## License
+
+Apache 2.0
