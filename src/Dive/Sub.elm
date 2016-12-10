@@ -1,4 +1,4 @@
-module Dive.Sub exposing (..)
+module Dive.Sub exposing (subscriptions)
 
 import Window
 import AnimationFrame

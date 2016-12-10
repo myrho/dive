@@ -2,34 +2,10 @@ module Dive.Transform exposing (..)
 
 import Dive.Model exposing (..)
 
-transformWorld : Position -> Size -> List Object -> List Object
-transformWorld position size =
-  List.map (transformObject position size )
-
-transformObject : Position -> Size -> Object -> Object
-transformObject position size object =
-  case object of
-    Text object ->
-      Text <| transformText position size object
-    Polygon object ->
-      Polygon <| transformPolygon position size object
-    Rectangle object ->
-      Rectangle <| transformRectangle position size object
-    Path object ->
-      Path <| transformPath position size object
-    Image object ->
-      Image <| transformImage position size object
-    FittedImage object ->
-      FittedImage <| transformImage position size object
-    TiledImage object ->
-      TiledImage <| transformImage position size object
-    CroppedImage object ->
-      CroppedImage <| transformCroppedImage position size object
-
 transformText : Position -> Size -> TextObject -> TextObject
 transformText position size object =
   { object
-    | size = object.size * size.height
+    | height = object.height * size.height
     , position = transformPosition object.position position size
   }
 
@@ -73,8 +49,7 @@ transformPath position size object =
 transformImage : Position -> Size -> ImageObject -> ImageObject
 transformImage position size object =
   { object
-    | width = transformX object.width size.width
-    , height = transformX object.height size.height
+    | size = transformSize object.size size
     , position = transformPosition object.position position size
   }
 
@@ -85,16 +60,11 @@ transformX x scale =
 transformCroppedImage : Position -> Size -> CroppedImageObject -> CroppedImageObject
 transformCroppedImage position size object =
   { object
-    | offsetX = transformX object.offsetX size.width
-    , offsetY = transformX object.offsetY size.height
-    , width = transformX object.width size.width
-    , height = transformX object.height size.height
+    | offset = 
+        Position
+          (transformX object.offset.x size.width)
+          (transformX object.offset.y size.height)
+    , size = transformSize object.size size
     , position = transformPosition object.position position size
   } 
 
-transformFrame : Position -> Size -> Frame -> Frame 
-transformFrame position size frame =
-  { frame 
-    | position = transformPosition frame.position position size
-    , size = transformSize frame.size size
-  }
