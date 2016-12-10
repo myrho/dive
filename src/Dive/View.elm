@@ -1,4 +1,4 @@
-module Dive.View exposing (..)
+module Dive.View exposing (view)
 
 import Html exposing (Html)
 import Collage as C 
@@ -34,7 +34,6 @@ transform model =
       }
   in
     matrix model.viewport currentToViewport
-
 
 matrix : Size -> Frame -> Transform 
 matrix viewport frame =
@@ -104,9 +103,9 @@ object2Form object =
       C.group
       <| List.indexedMap (line object)
       <| String.split "\n" object.text
-    Polygon {gons, color} ->
+    Polygon {gons, fill} ->
       C.polygon gons
-        |> C.filled color
+        |> C.filled fill
     Rectangle {border, fill, size, position} ->
       [ C.rect size.width size.height
         |> C.filled fill
@@ -117,17 +116,17 @@ object2Form object =
     Path {lineStyle, path} ->
       C.path path
         |> C.traced lineStyle
-    Image {src, width, height, position} ->
-      scalableImage E.image width height src
+    Image {src, size, position} ->
+      scalableImage E.image size src
         |> C.move (position.x, position.y)
-    FittedImage {src, width, height, position} ->
-      scalableImage E.fittedImage width height src
+    FittedImage {src, size, position} ->
+      scalableImage E.fittedImage size src
         |> C.move (position.x, position.y)
-    TiledImage {src, width, height, position} ->
-      scalableImage E.tiledImage width height src
+    TiledImage {src, size, position} ->
+      scalableImage E.tiledImage size src
         |> C.move (position.x, position.y)
-    CroppedImage {src, width, height, offsetX, offsetY, position} ->
-      scalableCroppedImage offsetX offsetY width height src
+    CroppedImage {src, size, offset, position} ->
+      scalableCroppedImage offset size src
         |> C.move (position.x, position.y)
 
 rescaleImage : Float -> Float -> (Int, Int, Float)
@@ -145,37 +144,37 @@ rescaleImage width height =
   in
     (w, h, scale)
 
-scalableImage : (Int -> Int -> String -> E.Element) -> Float -> Float -> String -> C.Form
-scalableImage image width height src =
+scalableImage : (Int -> Int -> String -> E.Element) -> Size -> String -> C.Form
+scalableImage image size src =
   let
     (w, h, scale) =
-      rescaleImage width height
+      rescaleImage size.width size.height
   in
     image w h src
       |> C.toForm
       |> C.scale scale
 
-scalableCroppedImage : Float -> Float -> Float -> Float -> String -> C.Form
-scalableCroppedImage offsetX offsetY width height src =
+scalableCroppedImage : Position -> Size -> String -> C.Form
+scalableCroppedImage offset size src =
   let
     (w, h, scale) =
-      rescaleImage width height
+      rescaleImage size.width size.height
     (oX, oY, _) =
-      rescaleImage offsetX offsetY
+      rescaleImage offset.x offset.y
   in
     E.croppedImage (oX,oY) w h src
       |> C.toForm
       |> C.scale scale
 
 line : TextObject -> Int -> String -> C.Form
-line {text, color, font, size, align, lineHeight, position} i line =
+line {text, color, fontFamily, height, align, lineHeight, position} i line =
   let
     textFactor =
       100 
     text_ = 
       T.fromString line
         |> T.color color
-        |> T.typeface [font]
+        |> T.typeface fontFamily
         |> T.height textFactor
     shift =
       case align of
@@ -192,14 +191,14 @@ line {text, color, font, size, align, lineHeight, position} i line =
       element
         |> E.widthOf
         |> toFloat
-        |> (*) (size/textFactor)
-    height =
-      size/2 -- for some odd reason height is half the size
+        |> (*) (height/textFactor)
+    height_ =
+      height/2 -- for some odd reason height is half the size
   in
     text_
       |> C.text
-      |> C.scale (size/textFactor)
+      |> C.scale (height/textFactor)
       |> C.move 
         ( position.x + shift
-        , position.y + height/2 - (toFloat i * (size*lineHeight)) 
+        , position.y + height_/2 - (toFloat i * (height*lineHeight)) 
         )
