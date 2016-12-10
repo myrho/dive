@@ -1,13 +1,13 @@
 module Dive.World exposing 
   ( Object
   , world
-  , rectangle, polygon, path, text, image
+  , rectangle, polygon, path, text, image, group
   , tiled, fitted, offset
   , position, size
   , border, lineStyle, fill, color
   , fontFamily
   , centered, leftAligned, rightAligned
-  , transform, transformWorld
+  , transform
   )
 
 {-|
@@ -80,6 +80,10 @@ image src =
     , position = Position 0 0
     , size = Size 1 1
     }
+
+group : List Object -> Object
+group objects =
+  Group objects
 
 position : Position -> Object -> Object
 position pos object =
@@ -304,8 +308,6 @@ transform x y w h object =
         TiledImage <| transformImage position size object
       CroppedImage object ->
         CroppedImage <| transformCroppedImage position size object
-
-transformWorld : Float -> Float -> Float -> Float -> List Object -> List Object
-transformWorld x y w h =
-  List.map (transform x y w h)
+      Group objects ->
+        Group <| List.map (transform x y w h) objects
 

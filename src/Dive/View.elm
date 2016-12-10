@@ -128,6 +128,9 @@ object2Form object =
     CroppedImage {src, size, offset, position} ->
       scalableCroppedImage offset size src
         |> C.move (position.x, position.y)
+    Group objects ->
+      C.group
+      <| List.map object2Form objects
 
 rescaleImage : Float -> Float -> (Int, Int, Float)
 rescaleImage width height =

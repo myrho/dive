@@ -22,6 +22,7 @@ type Object =
     | FittedImage ImageObject
     | CroppedImage CroppedImageObject
     | TiledImage ImageObject
+    | Group (List Object)
 
 type alias PolygonObject =
   { fill : Color
