@@ -465,7 +465,7 @@ rightAligned (Object object) =
   Object <| align Right object
 
 {-|
-The line height of some text.
+Sets the line height of some text.
 -}
 lineHeight : Float -> Object -> Object
 lineHeight height (Object object) =
@@ -628,8 +628,8 @@ frames frames_ (Model model) =
 {-|
 Transform a `Frame`. First the `Frame` is resized by the first input tuple of scaling factors (width, height), then it is moved by the vector given in the second input tuple (x,y).
 
-    frame -- construct a 1x1 sized frame at position (0,0)
-    |> transform (3,5) (10,20) -- scale it to 10x20 and moves it by (3,5)
+    frame (1,1) (0,0) -- create a 1x1 sized frame at position (0,0)
+    |> transform (3,5) (10,20) -- scale it to 10x20 and move it by (3,5)
 -}
 transformFrame : Size -> Position -> Frame -> Frame
 transformFrame (w,h) (x,y) (Frame frame) =
