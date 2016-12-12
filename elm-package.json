@@ -1,8 +1,8 @@
 {
     "version": "1.0.0",
-    "summary": "Visual presentations like Prezi",
+    "summary": "Build visual presentations like Prezi's",
     "repository": "https://github.com/myrho/dive.git",
-    "license": "BSD3",
+    "license": "Apache License, Version 2.0",
     "source-directories": [
         "src"
     ],

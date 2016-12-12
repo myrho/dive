@@ -81,4 +81,4 @@ Navigate your browser (Firefox or Chrome) to the location of the `index.html` an
 
 ## License
 
-Apache 2.0
+BSD-3
