@@ -6,13 +6,13 @@ import Dive.Update exposing (..)
 
 world =
   [ logo (0,0) (1,1)
-  , text "Hello Dive!"
+  , text (0,0) "Hello Dive!"
     |> transformObject (0.001,0.001) (0,0) 
   ]
 
 frames =
-  [ frame (0,0) (1,1)
-  , frame (0,0) (0.01, 0.01)
+  [ frame (1,1) (0,0)
+  , frame (0.01, 0.01) (0,0) 
     |> duration 2000
   ]
 
@@ -23,21 +23,11 @@ init size =
   , Cmd.none
   )
 
-type Msg =
-  DiveMsg Dive.Msg
-
-update msg model =
-  case msg of
-    DiveMsg (Animate diff) ->
-      (model, Cmd.none)
-    _ ->
-      (model, Cmd.none)
-
 main =
   Html.programWithFlags
     { init = init
-    , update = update
-    , view = (\m -> Html.map DiveMsg <| Dive.view m)
+    , update = Dive.update
+    , view = Dive.view
     , subscriptions = 
-        (\m -> Sub.map DiveMsg <| Dive.subscriptions m)
+        Dive.subscriptions
     }

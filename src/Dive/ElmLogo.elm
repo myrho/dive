@@ -58,4 +58,5 @@ logo (x,y) (w,h) =
       ]
     |> fill Color.lightBlue
   ] |> group
-    |> transformObject (w,h) (x-0.5,y-0.5) 
+    |> transformObject (1,1) (-0.5,-0.5) 
+    |> transformObject (w,h) (x,y) 

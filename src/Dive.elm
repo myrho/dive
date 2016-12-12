@@ -1,5 +1,5 @@
 module Dive exposing 
-  ( Model, Msg, Frame, Object, LineStyle
+  ( Model, Msg, Frame, Object, LineStyle, Position, Size
   , init
   , update
   , view
@@ -7,7 +7,6 @@ module Dive exposing
   , world
   , rectangle, polygon, path, text, image, group
   , tiled, fitted, offset
-  , position, size
   , border, lineStyle, fill, color
   , fontFamily
   , centered, leftAligned, rightAligned
@@ -109,13 +108,13 @@ Dive follows [The Elm Architecture](https://guide.elm-lang.org/architecture/) (T
 ## World 
 The "world" is the list of `Object`s the presentation consists of. 
 
-@docs Object, world
+@docs Position, Size, Object, world
 
 ### Constructors
 @docs rectangle, polygon, text, path, image, group
 
 ### General Decorators
-@docs position, size, border, lineStyle, fill, color
+@docs border, lineStyle, fill, color
 
 ### Text Decorators
 @docs fontFamily, centered, leftAligned, rightAligned, height, lineHeight
@@ -206,6 +205,18 @@ type Object =
   Object Dive.Model.Object
 
 {-|
+X- and Y-coordinates.
+-}
+type alias Position =
+  (Float, Float)
+
+{-|
+Width and height.
+-}
+type alias Size =
+  (Float, Float)
+
+{-|
 Reusing `Collage.LineStyle` here.
 -}
 type alias LineStyle =
@@ -235,22 +246,26 @@ defaultLine =
     }
 
 {-|
-A black, 1x1 sized rectangle.
+A black rectangle.
+
+    rectangle (100,100) (0,0)
 -}
-rectangle : Object
-rectangle =
+rectangle : Size -> Position -> Object
+rectangle (w,h) (x,y) =
   Object
   <| Rectangle 
       { border = defaultLine
       , fill = Color.white
-      , position = Position 0 0
-      , size = Size 1 1
+      , position = Position x y
+      , size = Size w h
       }
 
 {-|
 A blue polygon with the given coordinates.
+
+    polygon [(0,0), (1,1), (0,1)]
 -}
-polygon : List (Float, Float) -> Object
+polygon : List Position -> Object
 polygon gons =
   Object
   <| Polygon
@@ -260,8 +275,10 @@ polygon gons =
 
 {-|
 A path with the given coordinates and traced with `defaultLine`.
+
+    path [(0,0), (1,1), (0,1), (1,2)]
 -}
-path : List (Float, Float) -> Object
+path : List Position -> Object
 path path_ =
   Object
   <| Path
@@ -271,9 +288,11 @@ path path_ =
 
 {-|
 A black, centered text with font type 'sans', height 1 and lineHeight 1.
+
+    text (0,0) "hello world"
 -}
-text : String -> Object
-text text_ =
+text : Position -> String -> Object
+text (x,y) text_ =
   Object
   <| Text
       { text = text_
@@ -282,19 +301,21 @@ text text_ =
       , height = 1
       , align = Center
       , lineHeight = 1
-      , position = Position 0 0
+      , position = Position x y
       }
 
 {-|
-A 1x1 sized image rendering the given source url.
+An image rendering the given source url.
+
+    image (100,100) (0,0) "myImage.jpg"
 -}
-image : String -> Object
-image src =
+image : Size -> Position -> String -> Object
+image (w,h) (x,y) src =
   Object
   <| Image
       { src = src
-      , position = Position 0 0
-      , size = Size 1 1
+      , position = Position x y
+      , size = Size w h
       }
 
 {-|
@@ -303,60 +324,6 @@ Groups a list of `Object`s. Handy if you want to `transform` a bunch of objects 
 group : List Object -> Object
 group objects =
   Object <| Group <| List.map (\(Object obj) -> obj) objects
-
-{-|
-Position an `Object` at the given coordinates.
--}
-position : Float -> Float -> Object -> Object
-position x y (Object object) =
-  let
-    set obj =
-      { obj
-        | position = Position x y
-      }
-  in
-    Object
-    <| case object of
-        Rectangle obj ->
-          Rectangle <| set obj
-        Text obj ->
-          Text <| set obj
-        Image obj ->
-          Image <| set obj
-        FittedImage obj ->
-          FittedImage <| set obj
-        CroppedImage obj ->
-          CroppedImage <| set obj
-        TiledImage obj ->
-          TiledImage <| set obj
-        _ ->
-          object
-
-{-|
-Resize an `Object` to the given size.
--}
-size : Float -> Float -> Object -> Object
-size w h (Object object) =
-  Object
-  <| let
-      set obj =
-        { obj
-          | size = Size w h
-        }
-  in
-    case object of
-      Rectangle obj ->
-        Rectangle <| set obj
-      Image obj ->
-        Image <| set obj
-      FittedImage obj ->
-        FittedImage <| set obj
-      CroppedImage obj ->
-        CroppedImage <| set obj
-      TiledImage obj ->
-        TiledImage <| set obj
-      _ ->
-        object
 
 {-|
 Fill an `Object` with the given color. Only affects texts, rectangles and polygons.
@@ -583,7 +550,7 @@ Transform an `Object`. First the `Object` is resized by the first input tuple of
     rectangle -- construct a 1x1 sized rectangle at position (0,0)
     |> transform (3,5) (10,20) -- scales it to 10x20 and moves it by (3,5)
 -}
-transformObject : (Float, Float) -> (Float, Float) -> Object -> Object
+transformObject : Size -> Position -> Object -> Object
 transformObject size pos (Object object) =
   Object <| Dive.Transform.transformObject size pos object
 
@@ -594,10 +561,10 @@ type Frame =
   Frame Dive.Model.Frame
 
 {-|
-Create a `Frame` at the given position (first tuple) and of the given size (second tuple). Duration is 1000 ms by default.
+Create a `Frame`. Duration is 1000 ms by default.
 -}
-frame : (Float, Float) -> (Float, Float) -> Frame
-frame (x,y) (w,h) =
+frame : Size -> Position -> Frame
+frame (w,h) (x,y) =
   Frame
     { position = Position x y
     , size = Size w h
@@ -669,9 +636,9 @@ frames frames_ (Model model) =
 Transform a `Frame`. First the `Frame` is resized by the first input tuple of scaling factors (width, height), then it is moved by the vector given in the second input tuple (x,y).
 
     frame -- construct a 1x1 sized frame at position (0,0)
-    |> transform (3,5) (10,20) -- scales it to 10x20 and moves it by (3,5)
+    |> transform (3,5) (10,20) -- scale it to 10x20 and moves it by (3,5)
 -}
-transformFrame : (Float, Float) -> (Float, Float) -> Frame -> Frame
+transformFrame : Size -> Position -> Frame -> Frame
 transformFrame (w,h) (x,y) (Frame frame) =
   let
     position =
