@@ -19,13 +19,16 @@ module Dive exposing
   )
 
 {-|
-Dive is a framework for programming visual presentations like [Prezi](https://prezi.com)'s. 
+Dive is a framework for programming visual presentations like 
+[Prezi](https://prezi.com)'s. 
 
 # Demo
 
-This [presentation](https://myrho.github.io/dive/) dives you through the fundamentals of Dive written with Dive itself!
+This [presentation](https://myrho.github.io/dive/) dives you through the 
+fundamentals of Dive written with Dive itself!
 
-The source code can be found [here](https://github.com/myrho/dive/tree/master/intro).
+The source code can be found 
+[here](https://github.com/myrho/dive/tree/master/intro).
 
 # Installation
 
@@ -35,7 +38,8 @@ Install Dive like any other Elm package:
 
 # Example
 
-Create a file named `Main.elm` and copy/paste the following piece of code into it:
+Create a file named `Main.elm` and copy/paste the following piece of code into 
+it:
 
     import Html 
     import Dive exposing (..)
@@ -73,7 +77,8 @@ Build it:
 
     elm make --output elm.js
 
-Create a file named `index.html` and copy/paste the following piece of code into it:
+Create a file named `index.html` and copy/paste the following piece of code 
+into it:
 
     <!DOCTYPE HTML>
     <html>
@@ -91,11 +96,13 @@ Create a file named `index.html` and copy/paste the following piece of code into
       </body>
     </html>
 
-Navigate your browser (Firefox or Chrome) to the location of the `index.html` and dive!
+Navigate your browser (Firefox or Chrome) to the location of the `index.html` 
+and dive!
 
 # Documentation
 
-Dive follows [The Elm Architecture](https://guide.elm-lang.org/architecture/) (TEA).
+Dive follows [The Elm Architecture](https://guide.elm-lang.org/architecture/) 
+(TEA).
 @docs Model, Msg, init, update, view, subscriptions
 
 ## World 
@@ -186,7 +193,8 @@ view (Model model) =
   Dive.View.view model
 
 {-|
-Dive subscribes to `Mouse.clicks`, `Keyboard.presses`, `Window.resize` and `AnimationFrame.diff`.
+Dive subscribes to `Mouse.clicks`, `Keyboard.presses`, `Window.resize` and 
+`AnimationFrame.diff`.
 -}
 subscriptions : Model -> Sub Msg
 subscriptions (Model model) =
@@ -312,14 +320,16 @@ image (w,h) (x,y) src =
       }
 
 {-|
-Groups a list of `Object`s. Handy if you want to `transform` a bunch of objects altogether.
+Groups a list of `Object`s. Handy if you want to `transform` a bunch of objects 
+altogether.
 -}
 group : List Object -> Object
 group objects =
   Object <| Group <| List.map (\(Object obj) -> obj) objects
 
 {-|
-Fill an `Object` with the given color. Only affects texts, rectangles and polygons.
+Fill an `Object` with the given color. Only affects texts, rectangles and 
+polygons.
 -}
 fill : Color -> Object -> Object
 fill color (Object object) =
@@ -538,7 +548,9 @@ fitted (Object object) =
         object
 
 {-|
-Transform an `Object`. First the `Object` is resized by the first input tuple of scaling factors (width, height), then it is moved by the vector given in the second input tuple (x,y).
+Transform an `Object`. First the `Object` is resized by the first input tuple 
+of scaling factors (width, height), then it is moved by the vector given in the 
+second input tuple (x,y).
 
     rectangle -- construct a 1x1 sized rectangle at position (0,0)
     |> transform (3,5) (10,20) -- scales it to 10x20 and moves it by (3,5)
@@ -606,7 +618,8 @@ current index (Model model) =
           }
 
 {-|
-Sets the frames of the presentation. A `Frame` defines into which part of the canvas you want to dive to.
+Sets the frames of the presentation. A `Frame` defines into which part of the 
+canvas you want to dive to.
 -}
 frames : List Frame -> Model -> Model
 frames frames_ (Model model) =
@@ -626,7 +639,9 @@ frames frames_ (Model model) =
         }
 
 {-|
-Transform a `Frame`. First the `Frame` is resized by the first input tuple of scaling factors (width, height), then it is moved by the vector given in the second input tuple (x,y).
+Transform a `Frame`. First the `Frame` is resized by the first input tuple of 
+scaling factors (width, height), then it is moved by the vector given in the 
+second input tuple (x,y).
 
     frame (1,1) (0,0) -- create a 1x1 sized frame at position (0,0)
     |> transform (3,5) (10,20) -- scale it to 10x20 and move it by (3,5)
