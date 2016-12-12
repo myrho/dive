@@ -16,7 +16,7 @@ frames =
     |> F.size 1 1
   , frame 
     |> F.size 0.01 0.01
-    |> duration 1000
+    |> duration 2000
   ]
 
 init size =

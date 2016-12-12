@@ -36,14 +36,14 @@ type Frame =
   Frame Dive.Model.Frame
 
 {-|
-Create the default `Frame` with a size of 1x1 and a duration of 0.
+Create the default `Frame` with a size of 1x1 and a duration of 1000.
 -}
 frame : Frame
 frame =
   Frame
     { position = Position 0 0
     , size = Size 1 1
-    , duration = 0
+    , duration = 1000
     }
 
 {-|
