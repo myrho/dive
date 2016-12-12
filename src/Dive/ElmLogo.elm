@@ -6,7 +6,6 @@ module Dive.ElmLogo exposing (logo)
 -}
 
 import Dive exposing (..)
-import Dive.World exposing (..)
 import Color exposing (Color)
 
 {-|
@@ -59,4 +58,4 @@ logo =
       ]
     |> fill Color.lightBlue
   ] |> group
-    |> transform (1,1) (-0.5,-0.5) 
+    |> transformObject (1,1) (-0.5,-0.5) 

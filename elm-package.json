@@ -8,8 +8,6 @@
     ],
     "exposed-modules": [ 
         "Dive",
-        "Dive.World",
-        "Dive.Frame",
         "Dive.ElmLogo"
     ],
     "dependencies": {

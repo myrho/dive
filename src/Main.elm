@@ -1,21 +1,20 @@
 import Html 
 
-import Dive 
-import Dive.World as W exposing (..)
-import Dive.Frame as F exposing (..)
+import Dive exposing (..)
 import Dive.ElmLogo exposing (logo)
+import Dive.Update exposing (..)
 
 world =
   [ logo
   , text "Hello Dive!"
-    |> W.transform (0.001,0.001) (0,0) 
+    |> transformObject (0.001,0.001) (0,0) 
   ]
 
 frames =
   [ frame 
-    |> F.size 1 1
+    |> frameSize 1 1
   , frame 
-    |> F.size 0.01 0.01
+    |> frameSize 0.01 0.01
     |> duration 2000
   ]
 
@@ -26,11 +25,21 @@ init size =
   , Cmd.none
   )
 
+type Msg =
+  DiveMsg Dive.Msg
+
+update msg model =
+  case msg of
+    DiveMsg (Animate diff) ->
+      (model, Cmd.none)
+    _ ->
+      (model, Cmd.none)
+
 main =
   Html.programWithFlags
     { init = init
-    , update = Dive.update
-    , view = Dive.view
+    , update = update
+    , view = (\m -> Html.map DiveMsg <| Dive.view m)
     , subscriptions = 
-        Dive.subscriptions
+        (\m -> Sub.map DiveMsg <| Dive.subscriptions m)
     }

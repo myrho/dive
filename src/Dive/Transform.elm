@@ -68,3 +68,31 @@ transformCroppedImage position size object =
     , position = transformPosition object.position position size
   } 
 
+transformObject : (Float, Float) -> (Float, Float) -> Object -> Object
+transformObject (w,h) (x,y) object =
+  let
+    position =
+      Position x y
+    size =
+      Size w h
+  in
+    case object of
+      Text object ->
+        Text <| transformText position size object
+      Polygon object ->
+        Polygon <| transformPolygon position size object
+      Rectangle object ->
+        Rectangle <| transformRectangle position size object
+      Path object ->
+        Path <| transformPath position size object
+      Image object ->
+        Image <| transformImage position size object
+      FittedImage object ->
+        FittedImage <| transformImage position size object
+      TiledImage object ->
+        TiledImage <| transformImage position size object
+      CroppedImage object ->
+        CroppedImage <| transformCroppedImage position size object
+      Group objects ->
+        Group <| List.map (transformObject (w,h) (x,y)) objects
+

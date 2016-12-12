@@ -6,7 +6,7 @@ Dive is a framework written in [Elm](http://elmlang.org) for programming visual 
 
 This [presentation](https://myrho.github.io/dive/) dives you through the fundamentals of Dive written with Dive itself!
 
-The source code can be found [here](https://github.com/myrho/dive/master/tree/master/intro).
+The source code can be found [here](https://github.com/myrho/dive/tree/master/intro).
 
 ## Installation
 
