@@ -14,46 +14,43 @@ You need to [install Elm](https://guide.elm-lang.org/install.html) before.
 
 Then run:
 
-   elm package install myrho/dive
+    elm package install myrho/dive
 
 ## Example
 
 Create a file named `Main.elm` and copy/paste the following piece of code into it:
 
-    import Html 
+  import Html 
+  import Dive exposing (..)
+  import Dive.ElmLogo exposing (logo)
 
-    import Dive 
-    import Dive.World as W exposing (..)
-    import Dive.Frame as F exposing (..)
-    import Dive.ElmLogo exposing (logo)
+  world =
+    [ logo (0,0) (1,1)
+    , text (0,0) "Hello Dive!"
+      |> transformObject (0.001,0.001) (0,0) 
+    ]
 
-    world =
-      [ logo (0,0) (1,1)
-      , text (0,0) "Hello Dive!"
-        |> transformObject (0.001,0.001) (0,0) 
-      ]
+  frames =
+    [ frame (1,1) (0,0)
+    , frame (0.01, 0.01) (0,0) 
+      |> duration 2000
+    ]
 
-    frames =
-      [ frame (1,1) (0,0)
-      , frame (0.01, 0.01) (0,0) 
-        |> duration 2000
-      ]
+  init size =
+    ( Dive.init size
+      |> Dive.world world
+      |> Dive.frames frames
+    , Cmd.none
+    )
 
-    init size =
-      ( Dive.init size
-        |> Dive.world world
-        |> Dive.frames frames
-      , Cmd.none
-      )
-
-    main =
-      Html.programWithFlags
-        { init = init
-        , update = Dive.update
-        , view = Dive.view
-        , subscriptions = 
-            Dive.subscriptions
-        }
+  main =
+    Html.programWithFlags
+      { init = init
+      , update = Dive.update
+      , view = Dive.view
+      , subscriptions = 
+          Dive.subscriptions
+      }
 
 Build it:
 

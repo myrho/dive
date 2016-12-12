@@ -38,10 +38,7 @@ Install Dive like any other Elm package:
 Create a file named `Main.elm` and copy/paste the following piece of code into it:
 
     import Html 
-
-    import Dive 
-    import Dive.World as W exposing (..)
-    import Dive.Frame as F exposing (..)
+    import Dive exposing (..)
     import Dive.ElmLogo exposing (logo)
 
     world =

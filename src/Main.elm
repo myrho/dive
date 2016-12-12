@@ -2,7 +2,6 @@ import Html
 
 import Dive exposing (..)
 import Dive.ElmLogo exposing (logo)
-import Dive.Update exposing (..)
 
 world =
   [ logo (0,0) (1,1)
