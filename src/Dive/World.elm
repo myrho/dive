@@ -7,7 +7,9 @@ module Dive.World exposing
   , border, lineStyle, fill, color
   , fontFamily
   , centered, leftAligned, rightAligned
+  , height, lineHeight
   , transform
+  , defaultLine
   )
 
 {-|
@@ -85,12 +87,12 @@ group : List Object -> Object
 group objects =
   Group objects
 
-position : Position -> Object -> Object
-position pos object =
+position : Float -> Float -> Object -> Object
+position x y object =
   let
     set obj =
       { obj
-        | position = pos
+        | position = Position x y
       }
   in
     case object of
@@ -109,12 +111,12 @@ position pos object =
       _ ->
         object
 
-size : Size -> Object -> Object
-size size object =
+size : Float -> Float -> Object -> Object
+size w h object =
   let
     set obj =
       { obj
-        | size = size
+        | size = Size w h
       }
   in
     case object of
