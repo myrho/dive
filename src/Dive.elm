@@ -19,7 +19,7 @@ module Dive exposing
   )
 
 {-|
-Dive is a framework written in [Elm](http://elmlang.org) for programming visual presentations like [Prezi](https://prezi.com). 
+Dive is a framework for programming visual presentations like [Prezi](https://prezi.com)'s. 
 
 # Demo
 
@@ -29,15 +29,13 @@ The source code can be found [here](https://github.com/myrho/dive/tree/master/in
 
 # Installation
 
-You need to [install Elm](https://guide.elm-lang.org/install.html) before.
-
-From the root of your Elm project run
+Install Dive like any other Elm package:
 
     elm package install myrho/dive
 
 # Example
 
-Create a file named `Main.elm` and paste the following code into it:
+Create a file named `Main.elm` and copy/paste the following piece of code into it:
 
     import Html 
 
@@ -47,16 +45,14 @@ Create a file named `Main.elm` and paste the following code into it:
     import Dive.ElmLogo exposing (logo)
 
     world =
-      [ logo
-      , text "Hello Dive!"
-        |> W.transform (0.001,0.001) (0,0) 
+      [ logo (0,0) (1,1)
+      , text (0,0) "Hello Dive!"
+        |> transformObject (0.001,0.001) (0,0) 
       ]
 
     frames =
-      [ frame 
-        |> F.size 1 1
-      , frame 
-        |> F.size 0.01 0.01
+      [ frame (1,1) (0,0)
+      , frame (0.01, 0.01) (0,0) 
         |> duration 2000
       ]
 
@@ -80,7 +76,7 @@ Build it:
 
     elm make --output elm.js
 
-Create a file named `index.html` and paste the following code into it:
+Create a file named `index.html` and copy/paste the following piece of code into it:
 
     <!DOCTYPE HTML>
     <html>
