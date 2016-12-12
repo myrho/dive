@@ -395,14 +395,13 @@ fitted object =
       object
 
 {-|
-Transform an `Object`. First the `Object` is
-resized by the second coord, then it is moved in terms of its new size.
+Transform an `Object`. First the `Object` is resized by the first input tuple of scaling factors (width, height), then it is moved by the vector given in the second input tuple (x,y).
 
     rectangle -- construct a 1x1 sized rectangle at position (0,0)
-    |> transform 3 5 10 20 -- scales it to 10x20 and moves it by 
+    |> transform (3,5) (10,20) -- scales it to 10x20 and moves it by (3,5)
 -}
-transform : Float -> Float -> Float -> Float -> Object -> Object
-transform x y w h object =
+transform : (Float, Float) -> (Float, Float) -> Object -> Object
+transform (w,h) (x,y) object =
   let
     position =
       Position x y
@@ -427,5 +426,5 @@ transform x y w h object =
       CroppedImage object ->
         CroppedImage <| transformCroppedImage position size object
       Group objects ->
-        Group <| List.map (transform x y w h) objects
+        Group <| List.map (transform (w,h) (x,y)) objects
 

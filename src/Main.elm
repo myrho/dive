@@ -8,7 +8,7 @@ import Dive.ElmLogo exposing (logo)
 world =
   [ logo
   , text "Hello Dive!"
-    |> W.transform 0 0 0.001 0.001
+    |> W.transform (0.001,0.001) (0,0) 
   ]
 
 frames =

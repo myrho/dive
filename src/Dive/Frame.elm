@@ -126,11 +126,13 @@ frames frames_ model =
       }
 
 {-|
-Transform a `Frame`. First the `Frame` is
-resized by the second coord, then it is moved in terms of its new size.
+Transform a `Frame`. First the `Frame` is resized by the first input tuple of scaling factors (width, height), then it is moved by the vector given in the second input tuple (x,y).
+
+    frame -- construct a 1x1 sized frame at position (0,0)
+    |> transform (3,5) (10,20) -- scales it to 10x20 and moves it by (3,5)
 -}
-transform : Float -> Float -> Float -> Float -> Frame -> Frame 
-transform x y w h (Frame frame) =
+transform : (Float, Float) -> (Float, Float) -> Frame -> Frame
+transform (w,h) (x,y) (Frame frame) =
   let
     position =
       Position x y 
