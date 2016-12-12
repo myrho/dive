@@ -16,7 +16,6 @@ module Dive exposing
   , defaultLine
   , frame, frames, current
   , duration
-  , framePosition, frameSize
   , transformFrame
   )
 
@@ -140,7 +139,7 @@ Frames define into which part of the canvas you want to dive to.
 @docs frame
 
 ### Decorators
-@docs framePosition, frameSize, duration
+@docs duration
 
 ### Transformation
 @docs transformFrame
@@ -595,34 +594,14 @@ type Frame =
   Frame Dive.Model.Frame
 
 {-|
-Create the default `Frame` with a size of 1x1 and a duration of 1000.
+Create a `Frame` at the given position (first tuple) and of the given size (second tuple). Duration is 1000 ms by default.
 -}
-frame : Frame
-frame =
+frame : (Float, Float) -> (Float, Float) -> Frame
+frame (x,y) (w,h) =
   Frame
-    { position = Position 0 0
-    , size = Size 1 1
+    { position = Position x y
+    , size = Size w h
     , duration = 1000
-    }
-
-{-|
-Position a `Frame` at the given coordinate.
--}
-framePosition : Float -> Float -> Frame -> Frame
-framePosition x y (Frame frame) =
-  Frame
-    { frame
-      | position = Position x y
-    }
-
-{-|
-Resize a `Frame` to the given size.
--}
-frameSize : Float -> Float -> Frame -> Frame
-frameSize w h (Frame frame) =
-  Frame 
-    { frame
-      | size = Size w h
     }
 
 {-|

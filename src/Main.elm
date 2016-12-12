@@ -11,10 +11,8 @@ world =
   ]
 
 frames =
-  [ frame 
-    |> frameSize 1 1
-  , frame 
-    |> frameSize 0.01 0.01
+  [ frame (0,0) (1,1)
+  , frame (0,0) (0.01, 0.01)
     |> duration 2000
   ]
 
