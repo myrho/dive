@@ -13,23 +13,24 @@ type Msg =
   | Resize Window.Size
   | KeyPressed KeyCode
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-  case Debug.log "msg" msg of
-    Resize size ->
-      resize size model
-    Forth ->
-      forth model
-    Back ->
-      back model
-    KeyPressed code ->
-      case code of
-        37 ->
-          back model
-        39 ->
-          forth model
-        _ ->
-          model
-    Animate diff ->
-      animate diff model
+  (flip (,)) Cmd.none
+  <| case msg of
+      Resize size ->
+        resize size model
+      Forth ->
+        forth model
+      Back ->
+        back model
+      KeyPressed code ->
+        case code of
+          37 ->
+            back model
+          39 ->
+            forth model
+          _ ->
+            model
+      Animate diff ->
+        animate diff model
 

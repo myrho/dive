@@ -30,9 +30,13 @@ init size =
   <| Dive.Model.Size (toFloat size.width) (toFloat size.height)
     
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg (Model model) =
-  Model <| Dive.Update.update msg model
+  let
+    (model_, cmd) =
+      Dive.Update.update msg model
+  in
+    (Model model_, cmd)
 
 view : Model -> Html Msg
 view (Model model) =
