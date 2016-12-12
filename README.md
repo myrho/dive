@@ -1,27 +1,85 @@
 # Dive
 
-Dive is a framework written in [Elm](elmlang.org) for programming visual presentations like [Prezi](prezi.com). 
+Dive is a framework written in [Elm](http://elmlang.org) for programming visual presentations like [Prezi](https://prezi.com). 
 
-## Example
+## Demo
 
 This [presentation](https://myrho.github.io/dive/) dives you through the fundamentals of Dive written with Dive itself!
+
+The source code can be found [here](https://github.com/myrho/dive/master/tree/master/intro).
 
 ## Installation
 
 You need to [install Elm](https://guide.elm-lang.org/install.html) before.
 
-Then clone this repo into a directory served by a local webserver and build the package: 
+From the root of your Elm project run
 
-    git clone https://github.com/myrho/dive
-    cd dive
-    elm package install
-    elm make src/Main.elm --output elm.js
+   elm package install myrho/dive
 
-Browse to 
+## Example
 
-    localhost/dive/index.html
+Create a file named `Main.elm` and paste the following code into it:
 
-`index.html` contains a piece of JavaScript that reads out current window size and passes it to the Elm App on startup.
+    import Html 
+
+    import Dive 
+    import Dive.World as W exposing (..)
+    import Dive.Frame as F exposing (..)
+    import Dive.ElmLogo exposing (logo)
+
+    world =
+      [ logo
+      , text "Hello Dive!"
+        |> W.transform 0 0 0.001 0.001
+      ]
+
+    frames =
+      [ frame 
+        |> F.size 1 1
+      , frame 
+        |> F.size 0.01 0.01
+        |> duration 1000
+      ]
+
+    init size =
+      ( Dive.init size
+        |> Dive.world world
+        |> Dive.frames frames
+      , Cmd.none
+      )
+
+    main =
+      Html.programWithFlags
+        { init = init
+        , update = Dive.update
+        , view = Dive.view
+        , subscriptions = 
+            Dive.subscriptions
+        }
+
+Build it:
+
+    elm make --output elm.js
+
+Create a file named `index.html` and paste the following code into it:
+
+    <!DOCTYPE HTML>
+    <html>
+      <head>
+        <script type="text/javascript" src="elm.js"></script>
+      </head>
+      <body style="margin:0; padding:0; overflow:hidden;">
+        <script type="text/javascript">
+          var size =
+            { width : window.innerWidth
+            , height : window.innerHeight
+            };
+          Elm.Main.fullscreen(size);
+        </script>
+      </body>
+    </html>
+
+Navigate your browser (Firefox or Chrome) to the location of the `index.html` and dive!
 
 ## License
 

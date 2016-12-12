@@ -1,9 +1,18 @@
 module Dive.ElmLogo exposing (logo)
 
+{-|
+  lba
+@docs logo
+-}
+
 import Dive exposing (..)
 import Dive.World exposing (..)
 import Color exposing (Color)
 
+{-|
+The Elm logo as an `Object` (essentially a `group` of `polygon`s).
+-}
+logo : Object
 logo =
   [ polygon
       [ (0.01, 0.00)

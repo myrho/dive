@@ -7,13 +7,37 @@ module Dive.Frame exposing
   , transform
   )
 
+{-|
+Frames define into which part of the canvas you want to dive to. 
+
+@docs Frame
+
+# Constructor
+@docs frame
+
+# Decorators
+@docs position, size, duration
+
+# Transformation
+@docs transform
+
+# Setup
+@docs frames, current
+-}
+
 import List.Extra
 import Dive.Model exposing (Model, Frame, Position, Size)
 import Dive.Transform
 
+{-|
+A `Frame` consists of a `position`, a `size` and a `duration`.
+-}
 type Frame =
   Frame Dive.Model.Frame
 
+{-|
+Create the default `Frame` with a size of 1x1 and a duration of 0.
+-}
 frame : Frame
 frame =
   Frame
@@ -22,6 +46,9 @@ frame =
     , duration = 0
     }
 
+{-|
+Position a `Frame` at the given coordinate.
+-}
 position : Float -> Float -> Frame -> Frame
 position x y (Frame frame) =
   Frame
@@ -29,6 +56,9 @@ position x y (Frame frame) =
       | position = Position x y
     }
 
+{-|
+Resize a `Frame` to the given size.
+-}
 size : Float -> Float -> Frame -> Frame
 size w h (Frame frame) =
   Frame 
@@ -36,6 +66,9 @@ size w h (Frame frame) =
       | size = Size w h
     }
 
+{-|
+Set the duration in milliseconds it takes to dive to the `Frame`.
+-}
 duration : Int -> Frame -> Frame
 duration dur (Frame frame) =
   Frame
@@ -43,6 +76,9 @@ duration dur (Frame frame) =
       | duration = dur
     }
 
+{-|
+Sets the current frame of the presentation.
+-}
 current : Int -> Model -> Model
 current index model =
   let
@@ -70,6 +106,9 @@ current index model =
             }
         }
 
+{-|
+Sets the frames of the presentation. A `Frame` defines into which part of the canvas you want to dive to.
+-}
 frames : List Frame -> Model -> Model
 frames frames_ model =
   case List.head frames_ of
@@ -86,6 +125,10 @@ frames frames_ model =
           }
       }
 
+{-|
+Transform a `Frame`. First the `Frame` is
+resized by the second coord, then it is moved in terms of its new size.
+-}
 transform : Float -> Float -> Float -> Float -> Frame -> Frame 
 transform x y w h (Frame frame) =
   let

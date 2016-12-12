@@ -1,5 +1,5 @@
 module Dive.World exposing 
-  ( Object
+  ( Object, LineStyle
   , world
   , rectangle, polygon, path, text, image, group
   , tiled, fitted, offset
@@ -13,23 +13,57 @@ module Dive.World exposing
   )
 
 {-|
-  doc
+The "world" is the list of `Object`s the presentation consists of. 
+
+@docs Object, world
+
+# Constructors
+@docs rectangle, polygon, text, path, image, group
+
+# General Decorators
+@docs position, size, border, lineStyle, fill, color
+
+# Text Decorators
+@docs fontFamily, centered, leftAligned, rightAligned, height, lineHeight
+
+# Image Decorators
+@docs fitted, tiled, offset
+
+# Transformation
+@docs transform
+
+# LineStyle
+@docs LineStyle, defaultLine
 -}
 
-import Collage exposing (LineStyle)
+import Collage 
 import Color exposing (Color)
 import Dive.Model exposing (..)
 import Dive.Transform exposing (..)
 
+{-|
+-}
 type alias Object =
   Dive.Model.Object
 
+{-|
+Reusing Collage.LineStyle here.
+-}
+type alias LineStyle =
+  Collage.LineStyle
+
+{-|
+Sets a list of `Object`s
+-}
 world : List Object -> Model -> Model
 world objects model =
   { model
     | world = objects
   }
 
+{-|
+The default `LineStyle`.
+-}
 defaultLine : LineStyle
 defaultLine =
   let
@@ -40,6 +74,9 @@ defaultLine =
       | width = 0.01
     }
 
+{-|
+A black, 1x1 sized rectangle.
+-}
 rectangle : Object
 rectangle =
   Rectangle 
@@ -49,6 +86,9 @@ rectangle =
     , size = Size 1 1
     }
 
+{-|
+A blue polygon with the given coordinates.
+-}
 polygon : List (Float, Float) -> Object
 polygon gons =
   Polygon
@@ -56,6 +96,9 @@ polygon gons =
     , fill = Color.blue
     }
 
+{-|
+A path with the given coordinates and traced with `defaultLine`.
+-}
 path : List (Float, Float) -> Object
 path path_ =
   Path
@@ -63,6 +106,9 @@ path path_ =
     , lineStyle = defaultLine
     }
 
+{-|
+A black, centered text with font type 'sans', height 1 and lineHeight 1.
+-}
 text : String -> Object
 text text_ =
   Text
@@ -75,6 +121,9 @@ text text_ =
     , position = Position 0 0
     }
 
+{-|
+A 1x1 sized image rendering the given source url.
+-}
 image : String -> Object
 image src =
   Image
@@ -83,10 +132,16 @@ image src =
     , size = Size 1 1
     }
 
+{-|
+Groups a list of `Object`s. Handy if you want to `transform` a bunch of objects altogether.
+-}
 group : List Object -> Object
 group objects =
   Group objects
 
+{-|
+Position an `Object` at the given coordinates.
+-}
 position : Float -> Float -> Object -> Object
 position x y object =
   let
@@ -111,6 +166,9 @@ position x y object =
       _ ->
         object
 
+{-|
+Resize an `Object` to the given size.
+-}
 size : Float -> Float -> Object -> Object
 size w h object =
   let
@@ -133,6 +191,9 @@ size w h object =
       _ ->
         object
 
+{-|
+Fill an `Object` with the given color. Only affects `rectangle`s and `polygon`s.
+-}
 fill : Color -> Object -> Object
 fill color object =
   case object of
@@ -148,6 +209,9 @@ fill color object =
     _ ->
       object
 
+{-|
+Draw a border around an `Object`. Only affects `rectangle`s.
+-}
 border : LineStyle -> Object -> Object
 border lineStyle object =
   case object of
@@ -159,6 +223,9 @@ border lineStyle object =
     _ ->
       object
 
+{-|
+Set the `LineStyle` of an `Object`. Only affects `path`s.
+-}
 lineStyle : LineStyle -> Object -> Object
 lineStyle lineStyle object =
   case object of
@@ -170,6 +237,9 @@ lineStyle lineStyle object =
     _ ->
       object
 
+{-|
+Set the `Color` of an `Object`. Only affects `text`s, `rectangle`s and `polygon`s.
+-}
 color : Color -> Object -> Object
 color color object =
   case object of
@@ -191,6 +261,13 @@ color color object =
     _ ->
       object
 
+{-|
+A list of preferred fonts.
+
+["Inconsolata","Courier New","monospace"]
+
+The first font in the list that is found on the user's computer is used.
+-}
 fontFamily : List String -> Object -> Object
 fontFamily family object =
   case object of
@@ -202,6 +279,9 @@ fontFamily family object =
     _ ->
       object
 
+{-|
+Set the height of some text.
+-}
 height : Float -> Object -> Object
 height height object =
   case object of
@@ -224,18 +304,30 @@ align align_ object =
     _ ->
       object
 
+{-|
+Center text.
+-}
 centered : Object -> Object
 centered =
   align Center
 
+{-|
+Align text to the left.
+-}
 leftAligned : Object -> Object
 leftAligned =
   align Left
 
+{-|
+Align text to the right.
+-}
 rightAligned : Object -> Object
 rightAligned =
   align Right
 
+{-|
+The line height of some text.
+-}
 lineHeight : Float -> Object -> Object
 lineHeight height object =
   case object of
@@ -247,6 +339,9 @@ lineHeight height object =
     _ ->
       object
 
+{-|
+Crop an image by starting at the given offset coordinates.
+-}
 offset : Float -> Float -> Object -> Object
 offset offsetX offsetY object =
   let
@@ -269,6 +364,13 @@ offset offsetX offsetY object =
       _ ->
         object
 
+{-|
+Repeat an image up to the `Object`'s width and height.
+
+    image "myImage.jpg" 
+    |> size 100 100
+    |> tiled
+-}
 tiled : Object -> Object
 tiled object =
   case object of
@@ -277,6 +379,13 @@ tiled object =
     _ ->
       object
 
+{-|
+Scale an image up to the `Object`'s width and height.
+
+    image "myImage.jpg" 
+    |> size 100 1 
+    |> fitted
+-}
 fitted : Object -> Object
 fitted object =
   case object of
@@ -285,6 +394,13 @@ fitted object =
     _ ->
       object
 
+{-|
+Transform an `Object`. First the `Object` is
+resized by the second coord, then it is moved in terms of its new size.
+
+    rectangle -- construct a 1x1 sized rectangle at position (0,0)
+    |> transform 3 5 10 20 -- scales it to 10x20 and moves it by 
+-}
 transform : Float -> Float -> Float -> Float -> Object -> Object
 transform x y w h object =
   let

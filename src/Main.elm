@@ -1,30 +1,36 @@
 import Html 
-import Dive.Model exposing (..)
-import Dive.View exposing (view)
-import Dive.Update exposing (Msg)
-import Dive.Sub exposing (subscriptions)
 
-import DummyTalk
+import Dive 
+import Dive.World as W exposing (..)
+import Dive.Frame as F exposing (..)
+import Dive.ElmLogo exposing (logo)
+
+world =
+  [ logo
+  , text "Hello Dive!"
+    |> W.transform 0 0 0.001 0.001
+  ]
+
+frames =
+  [ frame 
+    |> F.size 1 1
+  , frame 
+    |> F.size 0.01 0.01
+    |> duration 1000
+  ]
 
 init size =
-  ( { viewport = size
-    , world = DummyTalk.world
-    , frames = DummyTalk.frames
-    , animation = Nothing
-    }
+  ( Dive.init size
+    |> Dive.world world
+    |> Dive.frames frames
   , Cmd.none
   )
 
-update msg model =
-  ( Dive.Update.update msg model
-  , Cmd.none
-  )
-
-main : Program Size Model Msg
 main =
   Html.programWithFlags
     { init = init
-    , update = update
-    , view = view
-    , subscriptions = subscriptions
+    , update = Dive.update
+    , view = Dive.view
+    , subscriptions = 
+        Dive.subscriptions
     }
