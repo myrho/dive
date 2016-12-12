@@ -5,7 +5,7 @@ import Dive.ElmLogo exposing (logo)
 import Dive.Update exposing (..)
 
 world =
-  [ logo
+  [ logo (0,0) (1,1)
   , text "Hello Dive!"
     |> transformObject (0.001,0.001) (0,0) 
   ]

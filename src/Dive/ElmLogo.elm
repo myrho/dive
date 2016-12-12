@@ -9,10 +9,10 @@ import Dive exposing (..)
 import Color exposing (Color)
 
 {-|
-The Elm logo as an `Object` (essentially a `group` of `polygon`s).
+The Elm logo as an `Object` (essentially a `group` of `polygon`s). Gets a position and a size tuple as arguments.
 -}
-logo : Object
-logo =
+logo : (Float, Float) -> (Float, Float) -> Object
+logo (x,y) (w,h) =
   [ polygon
       [ (0.01, 0.00)
       , (0.99, 0.00)
@@ -58,4 +58,4 @@ logo =
       ]
     |> fill Color.lightBlue
   ] |> group
-    |> transformObject (1,1) (-0.5,-0.5) 
+    |> transformObject (w,h) (x-0.5,y-0.5) 
