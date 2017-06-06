@@ -2,6 +2,9 @@
 
 Dive is a framework written in [Elm](http://elmlang.org) for programming visual presentations like [Prezi](https://prezi.com)'s. 
 
+If you are interested in an approach based on SVG, check out [Dive SVG](https://github.com/myrho/dive-svg).
+
+
 ## Demo
 
 This [presentation](https://myrho.github.io/dive/) dives you through the fundamentals of Dive written with Dive itself!
